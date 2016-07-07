@@ -53,11 +53,25 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="Autofac.Integration.WebApi">
+      <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UserManagerTests.cs" />
     <Compile Include="FNHConfigurationTests.cs" />
     <Compile Include="RepositoryTests.cs" />
+    <Compile Include="ProductControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -71,6 +85,10 @@
     <ProjectReference Include="..\MonoWebApi.Domain\MonoWebApi.Domain.csproj">
       <Project>{4C64FCF4-4535-4EEF-A259-4BEF7E3E5B7B}</Project>
       <Name>MonoWebApi.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoWebApi.WebApi\MonoWebApi.WebApi.csproj">
+      <Project>{9C9D381F-80CD-4260-A5D1-3C2EB2DAA460}</Project>
+      <Name>MonoWebApi.WebApi</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

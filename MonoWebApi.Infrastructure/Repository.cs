@@ -29,6 +29,13 @@ namespace MonoWebApi.Infrastructure
 			}
 		}
 
+		public void Delete (IList<TEntity> entity)
+		{
+			using (_session.BeginTransaction ()) {
+				_session.Delete (entity);
+			}
+		}
+
 		public IEnumerable<TEntity> Get (Expression<Func<TEntity, bool>> predicate)
 		{
 			using(var tx = _session.BeginTransaction ())
@@ -49,6 +56,16 @@ namespace MonoWebApi.Infrastructure
 			using(var tx = _session.BeginTransaction ())
 			{
 				_session.Save (entity);
+				tx.Commit ();
+			}
+		}
+
+		public void Insert (IList<TEntity> entities)
+		{
+			using (var tx = _session.BeginTransaction ()) {
+				foreach (TEntity entity in entities) {
+					_session.Save (entity);
+				}
 				tx.Commit ();
 			}
 		}

@@ -35,7 +35,13 @@ namespace MonoWebApi.Infrastructure.DataAccess
 					.Mappings (x => x.FluentMappings.AddFromAssembly (Assembly.GetExecutingAssembly ()))
 				                            .ExposeConfiguration (SetNHConfiguration);
 				FNHConfiguration = configuration;
-				_factory = configuration.BuildSessionFactory ();
+				try {
+					_factory = configuration.BuildSessionFactory ();
+				} catch (Exception ex) {
+					Console.WriteLine (ex);
+					throw ex;
+				}
+
 			}
 
 			return _factory;

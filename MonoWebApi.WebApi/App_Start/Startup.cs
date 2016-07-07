@@ -43,7 +43,7 @@ namespace MonoWebApi.Infrastructure.WebApi
 		{
 			var config = new HttpConfiguration ();
 			ConfigureWebApi (config);
-			app.UseWebApi (config);
+			//app.UseWebApi (config); // TODO extensions method not available
 		}
 
 		public static void ConfigureWebApi(HttpConfiguration config)
@@ -66,9 +66,9 @@ namespace MonoWebApi.Infrastructure.WebApi
 			);
 
 			var builder = new ContainerBuilder ();
-			builder.RegisterApiControllers (Assembly.GetExecutingAssembly ());
+			builder.RegisterApiControllers (Assembly.GetExecutingAssembly ()); // TODO move to Infrastructure configuration
 			AutofacDomainConfiguration.Configure (builder);
-			AutofacInfrastructureConfiguration.Configure (builder);
+			AutofacInfrastructureConfiguration.Configure (builder); 
 			var container = builder.Build ();
 
 			config.DependencyResolver = new AutofacWebApiDependencyResolver (container);
@@ -82,5 +82,10 @@ namespace MonoWebApi.Infrastructure.WebApi
 			settings.Formatting = Formatting.Indented;
 			settings.ContractResolver = new CamelCasePropertyNamesContractResolver ();
 		}
-	}
+
+		static void ConfigureWebApi (ContainerBuilder builder)
+		{
+			
+		}
+}
 }
