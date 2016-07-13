@@ -39,9 +39,7 @@
     <Compile Include="AutofacDomainConfiguration.cs" />
     <Compile Include="Infrastructure\IMyInfrastructureService.cs" />
     <Compile Include="Infrastructure\IRepository.cs" />
-    <Compile Include="Entities\Ingredient.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
-    <Compile Include="Entities\Recipe.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Image.cs" />
     <Compile Include="Services\IProductService.cs" />

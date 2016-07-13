@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using MonoWebApi.Domain.Entities;
@@ -51,6 +52,47 @@ namespace MonoWebApi.Domain
 			}
 
 			return product;
+		}
+
+		public void RemoveImage (int imageId)
+		{
+			_imageRepository.Delete (new Image() {Id=imageId});
+		}
+
+		public void AddImage (int productId, Image image)
+		{
+			_imageRepository.Insert (image);
+			var product = _productRepository.Get (p => p.Id == productId).FirstOrDefault ();
+			product.Photos.Add (image);
+			_productRepository.Update (product);
+		}
+
+		public void SetThumbnail (int productId, Image image)
+		{
+			var product = _productRepository.Get (p => p.Id == productId).FirstOrDefault ();
+			if (product.Thumbnail != null)
+				_imageRepository.Delete (product.Thumbnail);
+			
+			_imageRepository.Insert (image);
+			product.Thumbnail = _imageService.ResizeToThumbnail (image);
+			_imageRepository.Update (image);
+			_productRepository.Update (product);
+		}
+
+		public void ChangeThumbnail(int productId, int photoIndex)
+		{
+			var product = _productRepository.Get (p => p.Id == productId).FirstOrDefault ();
+			_imageRepository.Delete (product.Thumbnail);
+
+			product.Thumbnail = _imageService.ResizeToThumbnail (product.Photos [photoIndex]);
+
+			_imageRepository.Update (product.Thumbnail);
+			_productRepository.Update (product);
+		}
+
+		public void Update (Product p)
+		{
+			_productRepository.Update (p);
 		}
 	}
 }

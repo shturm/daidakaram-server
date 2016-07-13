@@ -13,7 +13,7 @@ namespace MonoWebApi.Infrastructure.Tests
 	{
 		Mock<ISession> SessionMock;
 		Mock<ITransaction> TxMock;
-		Repository<Ingredient> sut;
+		Repository<Image> sut;
 
 		[SetUp]
 		public void Setup()
@@ -21,7 +21,7 @@ namespace MonoWebApi.Infrastructure.Tests
 			//ConfigurationManager.ConnectionStrings.Add (new ConnectionStringSettings ("DefaultConnection", "Server=localhost;Database=koshiyam;Uid=uniuser;Pwd=unipass;"));
 			SessionMock = new Mock<ISession> ();
 			TxMock = new Mock<ITransaction> ();
-			sut = new Repository<Ingredient> (SessionMock.Object);
+			sut = new Repository<Image> (SessionMock.Object);
 
 			SessionMock.Setup (s => s.BeginTransaction ()).Returns (TxMock.Object);
 		}
@@ -30,7 +30,7 @@ namespace MonoWebApi.Infrastructure.Tests
 		[Category ("Unit")]
 		public void Insert ()
 		{
-			var entity = new Ingredient ();
+			var entity = new Image ();
 
 			Assert.DoesNotThrow (() => {
 				sut.Insert (entity);
@@ -44,7 +44,7 @@ namespace MonoWebApi.Infrastructure.Tests
 		[Category ("Unit")]
 		public void Update ()
 		{
-			var entity = new Ingredient ();
+			var entity = new Image ();
 
 			Assert.DoesNotThrow (() => {
 				sut.Update(entity);
@@ -58,17 +58,17 @@ namespace MonoWebApi.Infrastructure.Tests
 		[Category ("Unit")]
 		public void GetAll ()
 		{
-			var entity = new Ingredient ();
+			var entity = new Image ();
 			int actualCount;
-			var resultIngredients = new List<Ingredient> () { new Ingredient (), new Ingredient () };
+			var resultImages = new List<Image> () { new Image (), new Image () };
 			var criteriaMock = new Mock<ICriteria> ();
 
-			criteriaMock.Setup (c => c.List <Ingredient>()).Returns (resultIngredients);
-			SessionMock.Setup (s => s.CreateCriteria <Ingredient>()).Returns (criteriaMock.Object);
+			criteriaMock.Setup (c => c.List <Image>()).Returns (resultImages);
+			SessionMock.Setup (s => s.CreateCriteria <Image>()).Returns (criteriaMock.Object);
 
 			actualCount = sut.GetAll ().Count ();
 
-			Assert.AreEqual (resultIngredients.Count(), actualCount);
+			Assert.AreEqual (resultImages.Count(), actualCount);
 			SessionMock.Verify (x => x.SaveOrUpdate (entity), Times.Never ());
 			SessionMock.Verify (x => x.Save (entity), Times.Never ());
 			SessionMock.Verify (x => x.Delete (entity), Times.Never ());

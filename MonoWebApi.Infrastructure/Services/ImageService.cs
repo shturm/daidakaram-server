@@ -9,7 +9,7 @@ namespace MonoWebApi.Infrastructure.Services
 		public Image ResizeToThumbnail (Image thumbnail)
 		{
 			// TODO implement image resizing
-			return thumbnail;
+			return new Image() {Bytes = thumbnail.Bytes};
 		}
 	}
 }

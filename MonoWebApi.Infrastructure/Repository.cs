@@ -23,16 +23,21 @@ namespace MonoWebApi.Infrastructure
 
 		public void Delete (TEntity entity)
 		{
-			using (_session.BeginTransaction ())
+			using (var tx =_session.BeginTransaction ())
 			{
-				_session.Delete (entity);
+				if (entity != null)
+				{
+					_session.Delete (entity);
+					tx.Commit ();
+				}
 			}
 		}
 
 		public void Delete (IList<TEntity> entity)
 		{
-			using (_session.BeginTransaction ()) {
+			using (var tx =_session.BeginTransaction ()) {
 				_session.Delete (entity);
+				tx.Commit ();
 			}
 		}
 
