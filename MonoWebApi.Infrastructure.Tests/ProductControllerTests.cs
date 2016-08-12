@@ -84,7 +84,7 @@ namespace MonoWebApi.Infrastructure.Tests
 			content.Add (new ByteArrayContent (new byte [] { 1, 2, 3, 4 }), "photos", "pic2.jpg");
 			Controller.Request.Content = content;
 
-			var product = await Controller.Post ();
+			var product = await Controller.CreateProduct ();
 
 			Assert.AreNotEqual (0, product.Id, "Product ID has been generated");
 			Assert.IsNotNull (product.Thumbnail, "Product has thumbnail");

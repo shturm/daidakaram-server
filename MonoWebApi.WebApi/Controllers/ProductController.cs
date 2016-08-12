@@ -24,7 +24,10 @@ namespace MonoWebApi.Infrastructure.WebApi.Controllers
 		{
 			_productService = productService;
 		}
-		public async Task<Product> Post ()
+
+		[HttpPost]
+		[Route("api/product")]
+		public async Task<Product> CreateProduct ()
 		{
 			// Check if the request contains multipart/form-data.
 			if (!Request.Content.IsMimeMultipartContent ()) {

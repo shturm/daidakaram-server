@@ -1,0 +1,183 @@
+{
+	"variables": [],
+	"info": {
+		"name": "DaiDaKaram Server",
+		"_postman_id": "e730397a-ae06-cbff-1a40-fc68ef1f35f5",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Basic",
+			"description": "",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"url": "localhost:8080/token",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "gosho",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "password",
+									"value": "pochivkan1",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"url": "localhost:8080/api/account/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\": \"my@email.com\", \"password\": \"123456\" }"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Secret",
+					"request": {
+						"url": "localhost:8080/api/values/secret",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer l3qiBPypIvjCrqi8lEx2dTY6aUjhZUsuGwAdt20eBzGv2nfsRFAJE3jMPebsqL07VqyHTj8K7gG9SEQJchSYZuw7ZzkGRe1ntK5YrQWW84X-Vcij4N3C316tAuABmLVcIL6qR1_tQVzvuC6R2MK-be3OmfUgUM9UHa5-esOW64zRUtuQYe-6kx9AbvWHkH8zgi5Cov2WZ6_6TGIqeDgljSVHhn4une91GF09sSRntlmFaOS6P4mr59WSQDjCAfQ5HHcSPq5ToEdIobNq6QMljA",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create product",
+			"request": {
+				"url": "localhost:8080/api/product",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "photos",
+							"value": "tumblr_lz0qx0bbdn1roe4b7o1_500.jpg",
+							"type": "file",
+							"enabled": true
+						},
+						{
+							"key": "name",
+							"value": "prod 1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "description",
+							"value": "desc 1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"enabled": false
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Image",
+			"request": {
+				"url": "localhost:8080/api/product/deleteimage/42",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add  Image to Product",
+			"request": {
+				"url": "localhost:8080/api/product/19/image",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product",
+			"request": {
+				"url": "localhost:8080/api/product/",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"1\",\n    \"name\": \"updated name\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
