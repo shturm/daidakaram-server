@@ -48,7 +48,7 @@ namespace MonoWebApi.Infrastructure.WebApi.Controllers
 						Request.CreateErrorResponse (HttpStatusCode.InternalServerError, streamReadingTask.Exception);
 					}
 
-					var photos = streamReadingTask.Result.FileData
+					List<Image> photos = streamReadingTask.Result.FileData
 												  .Where (f => f.Headers.ContentDisposition.Name.Replace (@"""", "").Replace (@"\", "") == "photos")
 												  .Select (f => new Image () { Bytes = File.ReadAllBytes (f.LocalFileName) }).ToList ();
 					var name = streamReadingTask.Result.FormData ["name"];

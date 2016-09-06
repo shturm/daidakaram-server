@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using Autofac.Integration.WebApi;
 using MonoWebApi.Infrastructure.WebApi.Controllers;
 using MonoWebApi.Infrastructure.DataAccess;
 using MonoWebApi.Domain;
@@ -14,6 +15,7 @@ using MonoWebApi.Domain.Entities;
 using System.Collections.Generic;
 using NHibernate.Linq;
 using System.Linq;
+using System.Reflection;
 
 namespace MonoWebApi.Infrastructure.Tests
 {
@@ -35,6 +37,7 @@ namespace MonoWebApi.Infrastructure.Tests
 			session = NHibernateConfiguration.OpenSession ();
 
 			var builder = new ContainerBuilder ();
+			builder.RegisterApiControllers (Assembly.Load ("MonoWebApi.WebApi"));
 			AutofacInfrastructureConfiguration.Configure (builder);
 			AutofacDomainConfiguration.Configure (builder);
 			Container = builder.Build ();
@@ -47,7 +50,8 @@ namespace MonoWebApi.Infrastructure.Tests
 
 			Scope = Container.BeginLifetimeScope ();
 			try {
-				Controller = new ProductController (Scope.Resolve<IProductService> ());
+				//Controller = new ProductController (Scope.Resolve<IProductService> ());
+				Controller = Scope.Resolve<ProductController>();
 			} catch (Exception ex) {
 				Console.WriteLine (ex);
 			}
