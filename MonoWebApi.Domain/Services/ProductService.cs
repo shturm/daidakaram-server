@@ -35,7 +35,12 @@ namespace MonoWebApi.Domain
 				_imageRepository.Insert (product.Photos);
 			
 			if (product.Photos != null && product.Thumbnail == null)
-				product.Thumbnail = new Image () { Bytes = product.Photos [0].Bytes};
+			{
+				var thumbnail = _imageService.ResizeToThumbnail (photos.First ());
+				product.Thumbnail = thumbnail;
+				thumbnail.ProductOwningAsThumbnail = product;
+			}
+				
 			
 			if (product.Thumbnail != null)
 			{
@@ -84,9 +89,12 @@ namespace MonoWebApi.Domain
 			var product = _productRepository.Get (p => p.Id == productId).FirstOrDefault ();
 			_imageRepository.Delete (product.Thumbnail);
 
-			product.Thumbnail = _imageService.ResizeToThumbnail (product.Photos [photoIndex]);
 
-			_imageRepository.Update (product.Thumbnail);
+			var thumb = _imageService.ResizeToThumbnail (product.Photos [photoIndex]);
+
+			thumb.ProductOwningAsThumbnail = product;
+			product.Thumbnail = thumb;
+
 			_productRepository.Update (product);
 		}
 

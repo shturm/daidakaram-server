@@ -15,8 +15,8 @@ namespace MonoWebApi.Infrastructure.DataAccess
 	{
 		static ISessionFactory _factory;
 		public static readonly object lockObject = new object ();
-		public static FluentConfiguration FNHConfiguration { get; private set; }
 
+		public static FluentConfiguration FNHConfiguration { get; private set; }
 		public static NHibernate.Cfg.Configuration NHConfiguration { get; private set; }
 
 
@@ -28,24 +28,25 @@ namespace MonoWebApi.Infrastructure.DataAccess
 
 			lock (lockObject) {
 				var connectionString = ConfigurationManager.ConnectionStrings ["DefaultConnection"].ConnectionString;
-				var configuration = Fluently.Configure ()
+
+				var mainMapping =
+					AutoMap.AssemblyOf<Product> (new NHAutoMappingConfiguration ())
+						.IgnoreBase<BaseEntity> ()
+						.Override<Product> (pMap => {
+							pMap.Map (p => p.Description).Length (1000);
+							pMap.HasMany<Image> (p => p.Photos).Cascade.All ().Fetch.Join ();
+							pMap.HasOne<Image> (p => p.Thumbnail).PropertyRef (i => i.ProductOwningAsThumbnail).Cascade.All ();
+						}).Override<Image> (iMap => {
+							iMap.References<Product> (i => i.ProductOwningAsThumbnail).Cascade.SaveUpdate ();
+						});
+				FNHConfiguration = Fluently.Configure ()
 					.Database (MySQLConfiguration.Standard.ConnectionString (connectionString))
-					.Mappings (x => {
-						//x.FluentMappings.Conventions.Add <NHM2MTableNameConvention>();
-						//x.FluentMappings.AddFromAssembly (Assembly.GetExecutingAssembly ()); // use ProductMapping, ImageMapping, etc
-						var mainMapping = AutoMap.AssemblyOf<Product> (new NHAutoMappingConfiguration ())
-												.IgnoreBase<BaseEntity> ()
-					                             .Override<Product> (pMap => {
-													pMap.Map (p=>p.Description).Length (1000);
-													pMap.HasMany<Image> (p=>p.Photos).Cascade.All ();
-													pMap.References<Image> (p=>p.Thumbnail).Cascade.All ().Fetch.Join ();
-												});
-						x.AutoMappings.Add (mainMapping);
-					})
+                    .Mappings (mappingConfiguration => mappingConfiguration.AutoMappings.Add (mainMapping))
 					.ExposeConfiguration (SetNHConfiguration);
-				FNHConfiguration = configuration;
+
+				 
 				try {
-					_factory = configuration.BuildSessionFactory ();
+					_factory = FNHConfiguration.BuildSessionFactory ();
 				} catch (Exception ex) {
 					Console.WriteLine (ex);
 					throw ex;

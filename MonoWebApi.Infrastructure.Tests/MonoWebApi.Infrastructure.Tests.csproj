@@ -72,6 +72,7 @@
     <Compile Include="FNHConfigurationTests.cs" />
     <Compile Include="RepositoryTests.cs" />
     <Compile Include="ProductControllerTests.cs" />
+    <Compile Include="ApiControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
