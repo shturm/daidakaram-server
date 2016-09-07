@@ -245,7 +245,7 @@ namespace MonoWebApi.Infrastructure
         /// <returns></returns>
         public Task<IList<UserLoginInfo>> GetLoginsAsync(IdentityUser user)
         {
-            List<UserLoginInfo> userLogins = new List<UserLoginInfo>();
+            //List<UserLoginInfo> userLogins = new List<UserLoginInfo>();
             if (user == null)
             {
                 throw new ArgumentNullException("user");

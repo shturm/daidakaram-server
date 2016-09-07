@@ -9,11 +9,7 @@ namespace MonoWebApi.Domain
 	{
 		public static void Configure(ContainerBuilder builder)
 		{
-			//Assembly assembly = Assembly.GetExecutingAssembly ();
-
-			builder.RegisterType<MyService> ().AsImplementedInterfaces ();
 			builder.RegisterType<ProductService> ().AsImplementedInterfaces ();
-			//builder.RegisterType<My> ();
 		}
 	}
 }

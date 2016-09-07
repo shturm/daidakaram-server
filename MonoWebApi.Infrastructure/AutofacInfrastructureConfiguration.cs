@@ -1,10 +1,9 @@
-using NHibernate;
 using Autofac;
 using Autofac.Integration.WebApi;
 using MonoWebApi.Infrastructure.Services;
-using MonoWebApi.Infrastructure.DataAccess;
 using MonoWebApi.Domain.Infrastructure;
 using System.Reflection;
+using MonoWebApi.Domain.Entities;
 
 namespace MonoWebApi.Infrastructure
 {
@@ -12,15 +11,9 @@ namespace MonoWebApi.Infrastructure
 	{
 		public static void Configure(ContainerBuilder builder)
 		{
-			//var session = NHibernateConfiguration.OpenSession ();
-			//builder.Register (c => {
-			//	return NHibernateConfiguration.OpenSession ();
-			//}).As <ISession>().InstancePerLifetimeScope ();
-
-			builder.Register (c => NHibernateConfiguration.OpenSession()).As <ISession>();
-			builder.RegisterGeneric (typeof(Repository<>)).As (typeof(IRepository<>));
-			builder.RegisterType<MyInfrastructureService> ().AsImplementedInterfaces ();
-			builder.RegisterType<ImageService> ().AsImplementedInterfaces ();
+			builder.RegisterType (typeof (ProductRepository)).As (typeof (IRepository<Product>));
+			builder.RegisterType(typeof(ImageRepository)).As (typeof(IRepository<Image>));
+			builder.RegisterType<ImageManipulator> ().AsImplementedInterfaces ();
 		}
 	}
 }

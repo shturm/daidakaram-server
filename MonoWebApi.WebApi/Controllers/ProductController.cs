@@ -11,7 +11,6 @@ using System.Linq;
 using System.Web.Http;
 using MonoWebApi.Domain;
 using MonoWebApi.Domain.Entities;
-using NHibernate;
 using System.Collections.Generic;
 
 namespace MonoWebApi.Infrastructure.WebApi.Controllers
@@ -70,12 +69,8 @@ namespace MonoWebApi.Infrastructure.WebApi.Controllers
 		[Route ("api/product/deleteimage/{imageId}")]
 		public IHttpActionResult DeleteImage (int imageId)
 		{
-			try {
-				_productService.RemoveImage (imageId);
-				return Ok ();
-			} catch (StaleStateException ex) {
-				return NotFound ();
-			}
+			_productService.RemoveImage (imageId);
+			return Ok ();
 		}
 
 		[HttpPost]

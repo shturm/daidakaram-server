@@ -34,22 +34,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\MyService.cs" />
-    <Compile Include="Services\IMyService.cs" />
     <Compile Include="AutofacDomainConfiguration.cs" />
-    <Compile Include="Infrastructure\IMyInfrastructureService.cs" />
     <Compile Include="Infrastructure\IRepository.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Image.cs" />
-    <Compile Include="Services\IProductService.cs" />
     <Compile Include="Services\ProductService.cs" />
-    <Compile Include="Infrastructure\IImageService.cs" />
+    <Compile Include="Infrastructure\IImageManipulator.cs" />
+    <Compile Include="Interfaces\IProductService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Infrastructure\" />
     <Folder Include="Entities\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

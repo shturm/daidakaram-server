@@ -7,14 +7,14 @@ using MonoWebApi.Domain.Infrastructure;
 
 namespace MonoWebApi.Domain
 {
-	class ProductService : IProductService
+	public class ProductService : IProductService
 	{
 		IRepository<Product> _productRepository;
 		IRepository<Image> _imageRepository;
 
-		IImageService _imageService;
+		IImageManipulator _imageService;
 
-		public ProductService (IRepository<Product> productRepo, IRepository<Image> imageRepo, IImageService imageService)
+		public ProductService (IRepository<Product> productRepo, IRepository<Image> imageRepo, IImageManipulator imageService)
 		{
 			_productRepository = productRepo;
 			_imageRepository = imageRepo;

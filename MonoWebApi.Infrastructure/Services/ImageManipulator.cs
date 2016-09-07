@@ -4,7 +4,7 @@ using MonoWebApi.Domain.Infrastructure;
 
 namespace MonoWebApi.Infrastructure.Services
 {
-	public class ImageService : IImageService
+	public class ImageManipulator : IImageManipulator
 	{
 		public Image ResizeToThumbnail (Image thumbnail)
 		{

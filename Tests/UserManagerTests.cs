@@ -4,7 +4,7 @@ using MonoWebApi.Infrastructure;
 using System.Collections.Generic;
 using System;
 
-namespace MonoWebApi.Infrastructure.Tests
+namespace Integration
 {
 	using UserManager = MonoWebApi.Infrastructure.UserManager;
 
