@@ -1,28 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
 using MonoWebApi.Domain.Entities;
 using MonoWebApi.Domain.Infrastructure;
+using MonoWebApi.Infrastructure;
 
 namespace MonoWebApi.Infrastructure
 {
 	public class ImageRepository : IRepository<Image>, IDisposable
 	{
-		public ImageRepository ()
+		private readonly MySQLDatabase Db;
+
+		public ImageRepository (MySQLDatabase db)
 		{
+			Db = db;
 		}
 
-		public void Delete (System.Collections.Generic.IList<Image> entity)
+		public void Delete (IList<Image> entities)
 		{
-			throw new NotImplementedException ();
+			foreach (var entity in entities) {
+				string commandText = "DELETE FROM Image where Id = @id";
+				Dictionary<string, object> parameters = new Dictionary<string, object> ();
+				parameters.Add ("@id", entity.Id);
+
+				Db.Execute (commandText, parameters);
+			}
 		}
 
 		public void Delete (Image entity)
 		{
-			throw new NotImplementedException ();
+			string commandText = "DELETE FROM Image where Id = @id";
+			Dictionary<string, object> parameters = new Dictionary<string, object> ();
+			parameters.Add ("@id", entity.Id);
+
+			Db.Execute (commandText, parameters);
 		}
 
 		public void Dispose ()
 		{
-			
+			Db.Dispose ();
 		}
 
 		public System.Collections.Generic.IEnumerable<Image> Get (long id)
@@ -45,14 +60,47 @@ namespace MonoWebApi.Infrastructure
 			throw new NotImplementedException ();
 		}
 
-		public void Insert (System.Collections.Generic.IList<Image> entity)
+		public void Insert (IList<Image> entities)
 		{
-			throw new NotImplementedException ();
+			foreach (var entity in entities) {
+				string commandText = "Insert into Image (Bytes, ProductId, IsThumbnail, Created, Updated) values " +
+				"(@bytes, @productId, @isThumbnail, @created, @updated)";
+				Dictionary<string, object> parameters = new Dictionary<string, object> ();
+
+				int productId = 0;
+				if (entity.Product != null && entity.Product.Id > 0)
+				{
+					productId = entity.Product.Id;
+				}
+
+				parameters.Add ("@bytes", entity.Bytes);
+				parameters.Add ("@productId", productId);
+				parameters.Add ("@isThumbnail", entity.IsThumbnail);
+				parameters.Add ("@created", entity.Created);
+				parameters.Add ("@updated", entity.Created);
+
+				Db.Execute (commandText, parameters);
+			}
 		}
 
 		public void Insert (Image entity)
 		{
-			throw new NotImplementedException ();
+			string commandText = "Insert into Image (Bytes, ProductId, IsThumbnail, Created, Updated) values " +
+				"(@bytes, @productId, @isThumbnail, @created, @updated)";
+			Dictionary<string, object> parameters = new Dictionary<string, object> ();
+
+			int productId = 0;
+			if (entity.Product != null && entity.Product.Id > 0) {
+				productId = entity.Product.Id;
+			}
+
+			parameters.Add ("@bytes", entity.Bytes);
+			parameters.Add ("@productId", productId);
+			parameters.Add ("@isThumbnail", entity.IsThumbnail);
+			parameters.Add ("@created", entity.Created);
+			parameters.Add ("@updated", entity.Created);
+
+			Db.Execute (commandText, parameters);
 		}
 
 		public void Update (System.Collections.Generic.IList<Image> entity)

@@ -10,6 +10,11 @@ namespace MonoWebApi.Infrastructure
 {
 	public class ProductRepository : IDisposable, IRepository<Product>
 	{
+
+		public ProductRepository ()
+		{
+		}
+
 		public void Delete (IList<Product> entity)
 		{
 			throw new NotImplementedException ();
@@ -22,7 +27,7 @@ namespace MonoWebApi.Infrastructure
 
 		public void Dispose ()
 		{
-			
+			throw new NotImplementedException ();
 		}
 
 		public IEnumerable<Product> Get (long id)

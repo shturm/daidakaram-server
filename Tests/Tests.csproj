@@ -60,6 +60,12 @@
     <Reference Include="System.Web.Http">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UserManagerTests.cs" />
@@ -68,6 +74,7 @@
     <Compile Include="ApiControllerTests.cs" />
     <Compile Include="AutofacTests.cs" />
     <Compile Include="TestUtils.cs" />
+    <Compile Include="FNHPersistenceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

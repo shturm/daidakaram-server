@@ -4,6 +4,6 @@ namespace MonoWebApi.Domain.Infrastructure
 {
 	public interface IImageManipulator
 	{
-		Image ResizeToThumbnail (Image thumbnail);
+		Thumbnail ResizeToThumbnail (Image thumbnail);
 	}
 }

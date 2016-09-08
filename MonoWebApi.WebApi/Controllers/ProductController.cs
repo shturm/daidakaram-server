@@ -47,14 +47,14 @@ namespace MonoWebApi.Infrastructure.WebApi.Controllers
 						Request.CreateErrorResponse (HttpStatusCode.InternalServerError, streamReadingTask.Exception);
 					}
 
-					List<Image> photos = streamReadingTask.Result.FileData
+					List<Photo> photos = streamReadingTask.Result.FileData
 												  .Where (f => f.Headers.ContentDisposition.Name.Replace (@"""", "").Replace (@"\", "") == "photos")
-												  .Select (f => new Image () { Bytes = File.ReadAllBytes (f.LocalFileName) }).ToList ();
+												  .Select (f => new Photo () { Bytes = File.ReadAllBytes (f.LocalFileName) }).ToList ();
 					var name = streamReadingTask.Result.FormData ["name"];
 					var description = streamReadingTask.Result.FormData ["description"];
-					Image thumb = streamReadingTask.Result.FileData
+				Thumbnail thumb = streamReadingTask.Result.FileData
 												   .Where (f => f.Headers.ContentDisposition.FileName == streamReadingTask.Result.FormData ["thumbnail"])
-												   .Select (f => new Image () { Bytes = File.ReadAllBytes (f.LocalFileName) })
+												   .Select (f => new Thumbnail () { Bytes = File.ReadAllBytes (f.LocalFileName) })
 												   .FirstOrDefault ();
 
 					var resultProduct = _productService.Create (name, description, photos, thumb);
@@ -69,7 +69,7 @@ namespace MonoWebApi.Infrastructure.WebApi.Controllers
 		[Route ("api/product/deleteimage/{imageId}")]
 		public IHttpActionResult DeleteImage (int imageId)
 		{
-			_productService.RemoveImage (imageId);
+			_productService.RemovePhoto (imageId);
 			return Ok ();
 		}
 
@@ -93,15 +93,15 @@ namespace MonoWebApi.Infrastructure.WebApi.Controllers
 				  }
 
 				  if (isThumbnail) {
-					  _productService.SetThumbnail (productId, new Image () {
+					  _productService.SetThumbnail (productId, new Photo () {
 						  Bytes = File.ReadAllBytes (srTask.Result.FileData.FirstOrDefault ().LocalFileName)
 					  });
 				  }
 
 				  foreach (MultipartFileData f in srTask.Result.FileData) {
-					  var image = new Image () { Bytes = File.ReadAllBytes (f.LocalFileName) };
-					  _productService.AddImage (productId, image);
-					  imageIds.Add (image.Id);
+					var photo = new Photo () { Bytes = File.ReadAllBytes (f.LocalFileName) };
+					  _productService.AddImage (productId, photo);
+					  imageIds.Add (photo.Id);
 				  }
 
 				  return imageIds;

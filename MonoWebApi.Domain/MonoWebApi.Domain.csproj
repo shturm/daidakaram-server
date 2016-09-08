@@ -42,6 +42,8 @@
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Infrastructure\IImageManipulator.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
+    <Compile Include="Entities\Thumbnail.cs" />
+    <Compile Include="Entities\Photo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
