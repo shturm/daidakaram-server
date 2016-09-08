@@ -15,11 +15,7 @@ namespace Integration
 		[SetUp]
 		public void Setup()
 		{
-			//ConfigurationManager.ConnectionStrings.Add (new ConnectionStringSettings ("DefaultConnection", "Server=localhost;Database=koshiyam;Uid=uniuser;Pwd=unipass;"));
-			//SessionMock = new Mock<ISession> ();
-			//TxMock = new Mock<ITransaction> ();
-			//sut = new Repository<Image> (SessionMock.Object);
-
+			
 		}
 
 	}

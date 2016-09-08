@@ -1,9 +1,15 @@
-﻿namespace MonoWebApi.Domain.Entities
+﻿using System;
+
+namespace MonoWebApi.Domain.Entities
 {
-	public class Image : BaseEntity
+	public class Image
 	{
+		public virtual int Id { get; set; }
+		public virtual DateTime Created { get; set; }
+		public virtual DateTime Updated { get; set; }
+
 		public virtual byte [] Bytes { get; set; }
-		public virtual Product ProductOwningAsGallery { get; set; }
-		public virtual Product ProductOwningAsThumbnail { get; set;}
+		public virtual Product Product { get; set; }
+		public virtual bool IsThumbnail { get; set;}
 	}
 }

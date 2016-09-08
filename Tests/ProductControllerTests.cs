@@ -93,10 +93,10 @@ namespace Integration
 		[Category ("Integration")]
 		public void DeleteImage ()
 		{
-			var image = new Image ();
+			var photo = new Photo ();
 			int imageId = 0;
 			// REFACTOR save `image`
-			imageId = image.Id;
+			imageId = photo.Id;
 
 			Controller.DeleteImage (imageId);
 
@@ -109,10 +109,10 @@ namespace Integration
 		[Category ("Integration")]
 		public void ChangeThumbnail ()
 		{
-			var firstImage = new Image ();
-			var secndImage = new Image ();
+			var firstImage = new Photo ();
+			var secndImage = new Photo ();
 			var initialProduct = new Product () {
-				Photos = new List<Image> {
+				Photos = new List<Photo> {
 					firstImage,
 					secndImage
 				}

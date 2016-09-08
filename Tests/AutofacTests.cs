@@ -25,6 +25,8 @@ namespace Integration
 				Assert.AreEqual (typeof (ProductRepository), scope.Resolve<IRepository<Product>> ().GetType ());
 				Assert.AreEqual (typeof (ProductService), scope.Resolve<IProductService> ().GetType ());
 				Assert.AreEqual (typeof (ImageManipulator), scope.Resolve<IImageManipulator> ().GetType ());
+				Assert.AreEqual (typeof (MySQLDatabase), scope.Resolve<MySQLDatabase> ().GetType ());
+
 			}
 
 		}

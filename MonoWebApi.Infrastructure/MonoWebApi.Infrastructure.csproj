@@ -55,6 +55,12 @@
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,19 +79,25 @@
     <Compile Include="DataAccess\MySQLDatabase.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Repositories\ImageRepository.cs" />
+    <Compile Include="DataAccess\FNHibernateConfiguration.cs" />
+    <Compile Include="DataAccess\Mapping\ImageMapping.cs" />
+    <Compile Include="DataAccess\Mapping\ProductMapping.cs" />
+    <Compile Include="DataAccess\Mapping\BaseEntityMapping.cs" />
+    <Compile Include="DataAccess\Mapping\ThumbnailMapping.cs" />
+    <Compile Include="DataAccess\Mapping\PhotoMapping.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Identity\" />
     <Folder Include="Services\" />
     <Folder Include="DataAccess\" />
     <Folder Include="Repositories\" />
+    <Folder Include="DataAccess\Mapping\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="app.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="DataAccess\MySQLIdentity.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoWebApi.Domain\MonoWebApi.Domain.csproj">

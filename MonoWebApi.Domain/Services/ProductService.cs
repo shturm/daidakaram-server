@@ -10,18 +10,20 @@ namespace MonoWebApi.Domain
 	public class ProductService : IProductService
 	{
 		IRepository<Product> _productRepository;
-		IRepository<Image> _imageRepository;
+		IRepository<Thumbnail> _thumbnailRepository;
+		IRepository<Photo> _photoRepository;
 
-		IImageManipulator _imageService;
+		IImageManipulator _imageManipulator;
 
-		public ProductService (IRepository<Product> productRepo, IRepository<Image> imageRepo, IImageManipulator imageService)
+		public ProductService (IRepository<Product> productRepo, IRepository<Thumbnail> thumbRepo, IRepository<Photo> photoRepo, IImageManipulator imageManipulator)
 		{
 			_productRepository = productRepo;
-			_imageRepository = imageRepo;
-			_imageService = imageService;
+			_thumbnailRepository = thumbRepo;
+			_photoRepository = photoRepo;
+			_imageManipulator = imageManipulator;
 		}
 
-		public Product Create (string name, string description = null, List<Image> photos = null, Image thumb = null)
+		public Product Create (string name, string description = null, List<Photo> photos = null, Thumbnail thumb = null)
 		{
 			Contract.Ensures (Contract.Result<Product> () != null);
 			var product = new Product () {
@@ -31,69 +33,58 @@ namespace MonoWebApi.Domain
 				Thumbnail = thumb
 			};
 
-			if (product.Photos != null)
-				_imageRepository.Insert (product.Photos);
-			
 			if (product.Photos != null && product.Thumbnail == null)
 			{
-				var thumbnail = _imageService.ResizeToThumbnail (photos.First ());
+				var thumbnail = _imageManipulator.ResizeToThumbnail (photos.First ());
 				product.Thumbnail = thumbnail;
-				thumbnail.ProductOwningAsThumbnail = product;
-			}
-				
-			
-			if (product.Thumbnail != null)
-			{
-				product.Thumbnail = _imageService.ResizeToThumbnail (product.Thumbnail);
-				_imageRepository.Insert (product.Thumbnail);
+				thumbnail.Product = product;
 			}
 
-			
-			try {
-				_productRepository.Insert (product);
-			} catch (Exception ex) {
-				_imageRepository.Delete (product.Thumbnail);
-				_imageRepository.Delete (product.Photos);
+			if (product.Thumbnail != null)
+			{
+				product.Thumbnail = _imageManipulator.ResizeToThumbnail (product.Thumbnail);
 			}
+
+			_productRepository.Insert (product);
 
 			return product;
 		}
 
-		public void RemoveImage (int imageId)
+		public void RemovePhoto (int imageId)
 		{
-			_imageRepository.Delete (new Image() {Id=imageId});
+			_photoRepository.Delete (new Photo() {Id=imageId});
 		}
 
-		public void AddImage (int productId, Image image)
+		public void RemoveThumbnail (int thumbnailId)
 		{
-			_imageRepository.Insert (image);
+			_thumbnailRepository.Delete (new Thumbnail () { Id = thumbnailId });
+		}
+
+		public void AddImage (int productId, Photo photo)
+		{
+			_photoRepository.Insert (photo);
 			var product = _productRepository.Get (p => p.Id == productId).FirstOrDefault ();
-			product.Photos.Add (image);
+			product.Photos.Add (photo);
 			_productRepository.Update (product);
 		}
 
-		public void SetThumbnail (int productId, Image image)
+		public void SetThumbnail (int productId, Photo photo)
 		{
 			var product = _productRepository.Get (p => p.Id == productId).FirstOrDefault ();
 			if (product.Thumbnail != null)
-				_imageRepository.Delete (product.Thumbnail);
+				_thumbnailRepository.Delete (product.Thumbnail);
 			
-			_imageRepository.Insert (image);
-			product.Thumbnail = _imageService.ResizeToThumbnail (image);
-			_imageRepository.Update (image);
+
+			product.Thumbnail = _imageManipulator.ResizeToThumbnail (photo);
 			_productRepository.Update (product);
 		}
 
 		public void ChangeThumbnail(int productId, int photoIndex)
 		{
 			var product = _productRepository.Get (p => p.Id == productId).FirstOrDefault ();
-			_imageRepository.Delete (product.Thumbnail);
+			_thumbnailRepository.Delete (product.Thumbnail);
 
-
-			var thumb = _imageService.ResizeToThumbnail (product.Photos [photoIndex]);
-
-			thumb.ProductOwningAsThumbnail = product;
-			product.Thumbnail = thumb;
+			product.Thumbnail = _imageManipulator.ResizeToThumbnail (product.Photos [photoIndex]);
 
 			_productRepository.Update (product);
 		}

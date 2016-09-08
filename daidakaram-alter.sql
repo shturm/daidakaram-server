@@ -2,12 +2,43 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
+ALTER TABLE `daidakaram`.`Image` 
+CHANGE COLUMN `Id` `Id` INT(11) NOT NULL ,
+CHANGE COLUMN `ProductId` `ProductId` INT(11) NULL DEFAULT NULL AUTO_INCREMENT ;
+
+ALTER TABLE `daidakaram`.`Category` 
+ADD INDEX `fk_Category_Category1_idx` (`Id` ASC, `ParentId` ASC);
+
+ALTER TABLE `daidakaram`.`Product` 
+ADD CONSTRAINT `fk_Product_ProductCar1`
+  FOREIGN KEY (`Id`)
+  REFERENCES `daidakaram`.`ProductCar` (`ProductId`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_Product_Image1`
+  FOREIGN KEY (`Id`)
+  REFERENCES `daidakaram`.`Image` (`ProductId`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `daidakaram`.`Category` 
+ADD CONSTRAINT `fk_Category_Product1`
+  FOREIGN KEY (`Id`)
+  REFERENCES `daidakaram`.`Product` (`CategoryId`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_Category_Category1`
+  FOREIGN KEY (`Id` , `ParentId`)
+  REFERENCES `daidakaram`.`Category` (`ParentId` , `Id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
 ALTER TABLE `daidakaram`.`Car` 
-ADD COLUMN `EngineCcm` INT(11) NULL DEFAULT NULL AFTER `YearTo`,
-ADD COLUMN `EngineHp` INT(11) NULL DEFAULT NULL AFTER `EngineCcm`,
-ADD COLUMN `EngineKw` INT(11) NULL DEFAULT NULL AFTER `EngineHp`,
-ADD COLUMN `EngineFuel` VARCHAR(45) NULL DEFAULT NULL AFTER `EngineKw`,
-ADD COLUMN `KType` INT(11) NULL DEFAULT NULL AFTER `EngineFuel`;
+ADD CONSTRAINT `fk_Car_ProductCar1`
+  FOREIGN KEY (`Id`)
+  REFERENCES `daidakaram`.`ProductCar` (`CarId`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

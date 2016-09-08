@@ -6,10 +6,10 @@ namespace MonoWebApi.Infrastructure.Services
 {
 	public class ImageManipulator : IImageManipulator
 	{
-		public Image ResizeToThumbnail (Image thumbnail)
+		public Thumbnail ResizeToThumbnail (Image thumbnail)
 		{
 			// TODO implement image resizing
-			return new Image() {Bytes = thumbnail.Bytes};
+			return new Thumbnail() {Bytes = thumbnail.Bytes};
 		}
 	}
 }
