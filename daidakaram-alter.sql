@@ -3,8 +3,7 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
 ALTER TABLE `daidakaram`.`Image` 
-CHANGE COLUMN `Id` `Id` INT(11) NOT NULL ,
-CHANGE COLUMN `ProductId` `ProductId` INT(11) NULL DEFAULT NULL AUTO_INCREMENT ;
+CHANGE COLUMN `IsThumbnail` `IsThumbnail` VARCHAR(3) NULL DEFAULT NULL COMMENT ' /* comment truncated */ /*nhibernate can discriminate on string only*/' ;
 
 ALTER TABLE `daidakaram`.`Category` 
 ADD INDEX `fk_Category_Category1_idx` (`Id` ASC, `ParentId` ASC);

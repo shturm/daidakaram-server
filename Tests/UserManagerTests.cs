@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Configuration;
 using MonoWebApi.Infrastructure;
+using Autofac;
 using System.Collections.Generic;
 using System;
 
@@ -11,14 +12,19 @@ namespace Integration
 	[TestFixture]
 	public class UserManagerTests
 	{
+		MySQLDatabase db;
+
+		[TestFixtureSetUp]
+		public void Init ()
+		{
+			var scope = TestUtils.GetAutofacScope ();
+			db = scope.Resolve<MySQLDatabase> ();
+		}
+
 		[SetUp]
 		public void SetUp()
 		{
-			ConfigurationManager.ConnectionStrings.Add (
-				new ConnectionStringSettings ("DefaultConnection", "Server=localhost;Database=koshiyam;Uid=uniuser;Pwd=unipass;")
-			);
-			var db = new MySQLDatabase ();
-			//db.Execute ("delete from Users", new Dictionary<string, object> ());
+			db.Execute ("delete from Users", new Dictionary<string, object> ());
 		}
 
 		[Test]

@@ -31,7 +31,7 @@ namespace MonoWebApi.Infrastructure
 			lock (lockObject) {
 				var connectionString = ConfigurationManager.ConnectionStrings ["DefaultConnection"].ConnectionString;
 				var configuration = Fluently.Configure ()
-				   .Database (MySQLConfiguration.Standard.ConnectionString (connectionString))
+				                            .Database (MySQLConfiguration.Standard.ConnectionString (connectionString).ShowSql ())
 					//.Mappings (x => {
 					//	x.FluentMappings.AddFromAssembly (Assembly.GetExecutingAssembly ());
 					//	//x.FluentMappings.Conventions.Add <NHM2MTableNameConvention>();
@@ -66,7 +66,8 @@ namespace MonoWebApi.Infrastructure
 	{
 		public override bool OnSave (object entity, object id, object [] state, string [] propertyNames, NHibernate.Type.IType [] types)
 		{
-			// caveat for setting relation on both entities
+			// caveat for setting relation on both entities.
+			// only required for this one-to-one relation
 			if (entity is Product) {
 				((Product)entity).Thumbnail.Product = (Product)entity;
 			}
@@ -76,7 +77,7 @@ namespace MonoWebApi.Infrastructure
 
 		public override SqlString OnPrepareStatement (SqlString sql)
 		{
-			Console.WriteLine (sql);
+			//Console.WriteLine (sql);
 
 			return sql;
 		}

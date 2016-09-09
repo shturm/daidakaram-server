@@ -21,10 +21,6 @@ namespace Integration
 		[TestFixtureSetUp]
 		public virtual void Init ()
 		{
-			ConfigurationManager.ConnectionStrings.Add (
-				new ConnectionStringSettings ("DefaultConnection", "Server=localhost;Database=koshiyam;Uid=uniuser;Pwd=unipass;")
-			);
-
 		}
 
 		[SetUp]

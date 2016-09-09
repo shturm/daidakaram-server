@@ -10,6 +10,7 @@ namespace MonoWebApi.Infrastructure.DataAccess
 		public PhotoMapping ()
 		{
 			DiscriminatorValue ("no");
+			References<Product> (x => x.Product, "ProductId");
 		}
 	}
 }

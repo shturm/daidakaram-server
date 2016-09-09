@@ -22,14 +22,13 @@ namespace Integration
 			using (var scope = TestUtils.GetAutofacScope ())
 			{
 				// infrastructure
-				Assert.AreEqual (typeof (ProductRepository), scope.Resolve<IRepository<Product>> ().GetType ());
-				Assert.AreEqual (typeof (ProductService), scope.Resolve<IProductService> ().GetType ());
-				Assert.AreEqual (typeof (ImageManipulator), scope.Resolve<IImageManipulator> ().GetType ());
-				Assert.AreEqual (typeof (MySQLDatabase), scope.Resolve<MySQLDatabase> ().GetType ());
-
+				Assert.IsInstanceOf (typeof (IRepository<Product>), scope.Resolve<IRepository<Product>> ());
+				Assert.IsInstanceOf (typeof (Repository<Product>), scope.Resolve<IRepository<Product>> ());
+				Assert.IsInstanceOf (typeof (ProductService), scope.Resolve<IProductService> ());
+				Assert.IsInstanceOf (typeof (ImageManipulator), scope.Resolve<IImageManipulator> ());
+				Assert.IsInstanceOf (typeof (MySQLDatabase), scope.Resolve<MySQLDatabase> ());
 			}
 
 		}
 	}
 }
-

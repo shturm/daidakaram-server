@@ -12,8 +12,10 @@ namespace MonoWebApi.Infrastructure
 	{
 		public static void Configure(ContainerBuilder builder)
 		{
-			builder.RegisterType (typeof (ProductRepository)).As (typeof (IRepository<Product>));
-			builder.RegisterType(typeof(ImageRepository)).As (typeof(IRepository<Image>));
+			//builder.RegisterType (typeof (ProductRepository)).As (typeof (IRepository<Product>));
+			//builder.RegisterType(typeof(ImageRepository)).As (typeof(IRepository<Image>));
+			//builder.RegisterGeneric <Repository<>>().As <IRepository<>>();
+			builder.RegisterGeneric (typeof(Repository<>)).As (typeof(IRepository<>));
 			builder.RegisterType<ImageManipulator> ().AsImplementedInterfaces ();
 			builder.Register<MySQLDatabase> (c => new MySQLDatabase ()).As (typeof(MySQLDatabase));
 			builder.Register(c => FNHibernateConfiguration.OpenSession ()).As <ISession>();

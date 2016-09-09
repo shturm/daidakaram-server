@@ -6,17 +6,17 @@ using System.Linq.Expressions;
 
 namespace MonoWebApi.Domain.Infrastructure
 {
-	public interface IRepository<T> where T : class
+	public interface IRepository<TEntity> where TEntity : class
 	{
-		IEnumerable<T> GetAll (Expression<Func<T, bool>> expression);
-		IEnumerable<T> GetAll ();
-		IEnumerable<T> Get (Expression<Func<T, bool>> expression);
-		IEnumerable<T> Get (long id);
-		void Insert (T entity);
-		void Insert (IList<T> entity);
-		void Delete (T entity);
-		void Delete (IList<T> entity);
-		void Update (T entity);
-		void Update (IList<T> entity);
+		IEnumerable<TEntity> GetAll (Expression<Func<TEntity, bool>> expression);
+		IEnumerable<TEntity> GetAll ();
+		TEntity Get (Expression<Func<TEntity, bool>> expression);
+		TEntity Get (long id);
+		void Insert (TEntity entity);
+		void Insert (IList<TEntity> entity);
+		void Delete (TEntity entity);
+		void Delete (IList<TEntity> entity);
+		void Update (TEntity entity);
+		void Update (IList<TEntity> entity);
 	}
 }

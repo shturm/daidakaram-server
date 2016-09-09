@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace Integration
 {
 	[TestFixture]
-	public class FNHPersistenceTests
+	public class PersistenceTests
 	{
 		ISession Session;
 
@@ -38,18 +38,39 @@ namespace Integration
 
 		[Test]
 		[Category ("Database")]
-		public void ProductPersistence ()
+		public void ProductPersistence_FNH ()
 		{
-			var photos = new List<Image> () {
+			var photos = new List<Photo> () {
 				new Photo(){ Bytes = new byte[] {1}},
 				new Photo(){ Bytes = new byte[] {1,2}}
 			};
 
 			new PersistenceSpecification<Product> (Session, new DDKComparer())
 				.CheckProperty (p => p.Name, "fnh spec product name")
-				//.CheckProperty (p => p.Photos, photos)
+				.CheckList (p => p.Photos, photos)
 				.CheckProperty( p => p.Thumbnail, new Thumbnail() { Bytes = new byte[] {1,2,3}})
 				.VerifyTheMappings ();
+		}
+
+		[Test]
+		[Category ("Database")]
+		public void ProductPersistence_Session ()
+		{
+			using(var tx = Session.BeginTransaction ())
+			{
+				var preparedProduct = new Product () {
+					Photos = new List<Photo> () {
+						new Photo(){ Bytes = new byte[] {1}},
+						new Photo(){ Bytes = new byte[] {1,2}}
+					},
+					Thumbnail = new Thumbnail () { Bytes = new byte [] { 1, 2, 3 } }
+				};
+				Session.Save (preparedProduct);
+				tx.Commit ();
+
+				var actualProduct = Session.Get<Product> (1);
+				Assert.AreEqual (2, actualProduct.Photos.Count ());
+			}
 		}
 	}
 

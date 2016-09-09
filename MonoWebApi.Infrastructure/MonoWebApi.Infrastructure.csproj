@@ -77,14 +77,13 @@
     <Compile Include="AutofacInfrastructureConfiguration.cs" />
     <Compile Include="Services\ImageManipulator.cs" />
     <Compile Include="DataAccess\MySQLDatabase.cs" />
-    <Compile Include="Repositories\ProductRepository.cs" />
-    <Compile Include="Repositories\ImageRepository.cs" />
     <Compile Include="DataAccess\FNHibernateConfiguration.cs" />
     <Compile Include="DataAccess\Mapping\ImageMapping.cs" />
     <Compile Include="DataAccess\Mapping\ProductMapping.cs" />
     <Compile Include="DataAccess\Mapping\BaseEntityMapping.cs" />
     <Compile Include="DataAccess\Mapping\ThumbnailMapping.cs" />
     <Compile Include="DataAccess\Mapping\PhotoMapping.cs" />
+    <Compile Include="DataAccess\Repository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Identity\" />

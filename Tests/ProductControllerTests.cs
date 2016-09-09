@@ -14,18 +14,13 @@ using System.Collections.Generic;
 
 using System.Linq;
 using System.Reflection;
+using NHibernate;
 
 namespace Integration
 {
 	[TestFixture]
 	public class ProductControllerTests : ApiControllerTests<ProductController>
 	{
-		[TestFixtureSetUp]
-		public override void Init ()
-		{
-
-		}
-
 		[TestFixtureTearDown]
 		public override void ShutDown ()
 		{
@@ -36,6 +31,13 @@ namespace Integration
 		public override void SetUp ()
 		{
 			base.SetUp ();
+
+			var session = Scope.Resolve<ISession> ();
+			using (var tx = session.BeginTransaction ()) {
+				session.CreateSQLQuery ("truncate Product").List ();
+				session.CreateSQLQuery ("truncate Image").List ();
+				tx.Commit ();
+			}
 		}
 
 		[TearDown]

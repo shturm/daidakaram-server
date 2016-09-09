@@ -23,7 +23,7 @@ namespace MonoWebApi.Infrastructure.DataAccess
 			//	.Column ("ProductId")
 			//	.ForeignKey ("Thumbnail");
 
-			References<Product> (x => x.Product, "ProductId");
+			//References<Product> (x => x.Product, "ProductId");
 				//.Formula ("(CASE WHEN IsThumbnail = 1 THEN 42 ELSE 142 END)");
 				//.Unique ();
 

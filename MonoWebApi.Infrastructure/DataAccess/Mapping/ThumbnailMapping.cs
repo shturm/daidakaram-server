@@ -9,6 +9,7 @@ namespace MonoWebApi.Infrastructure.DataAccess
 		public ThumbnailMapping ()
 		{
 			DiscriminatorValue ("yes");
+			References<Product> (x => x.Product, "ProductId");
 		}
 	}
 }

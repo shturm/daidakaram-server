@@ -19,6 +19,9 @@ namespace MonoWebApi.Infrastructure.DataAccess
 			HasOne<Thumbnail> (x=>x.Thumbnail)
 				.PropertyRef ("Product")
 				.Cascade.All ();
+			HasMany<Photo> (x=>x.Photos)
+				//.PropertyRef ("Product")
+				.Cascade.All ();
 
 		}
 	}
