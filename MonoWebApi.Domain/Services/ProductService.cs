@@ -52,7 +52,8 @@ namespace MonoWebApi.Domain
 
 		public void RemovePhoto (int imageId)
 		{
-			_photoRepository.Delete (new Photo() {Id=imageId});
+			var photo = _photoRepository.Get (imageId);
+			_photoRepository.Delete (photo);
 		}
 
 		public void RemoveThumbnail (int thumbnailId)
@@ -60,7 +61,7 @@ namespace MonoWebApi.Domain
 			_thumbnailRepository.Delete (new Thumbnail () { Id = thumbnailId });
 		}
 
-		public void AddImage (int productId, Photo photo)
+		public void AddPhoto (int productId, Photo photo)
 		{
 			_photoRepository.Insert (photo);
 			var product = _productRepository.Get (p => p.Id == productId);
@@ -85,7 +86,8 @@ namespace MonoWebApi.Domain
 			_thumbnailRepository.Delete (product.Thumbnail);
 
 			product.Thumbnail = _imageManipulator.ResizeToThumbnail (product.Photos [photoIndex]);
-
+			product.Thumbnail.Product = product;
+			       
 			_productRepository.Update (product);
 		}
 

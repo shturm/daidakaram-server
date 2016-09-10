@@ -14,7 +14,7 @@ namespace MonoWebApi.Infrastructure.DataAccess
 			//UseUnionSubclassForInheritanceMapping ();
 
 			Id (x => x.Id).GeneratedBy.Increment ();
-			Map (x => x.Created).CustomType<UtcDateTimeType> ();
+			Map (x => x.Created).CustomType<UtcDateTimeType> ().Default (DateTime.Now.ToString ());
 			Map (x => x.Updated).CustomType<UtcDateTimeType> ();
 			Map (x => x.Bytes);
 
@@ -29,6 +29,9 @@ namespace MonoWebApi.Infrastructure.DataAccess
 
 			DiscriminateSubClassesOnColumn("IsThumbnail")
 				.AlwaysSelectWithValue ();
+
+			//Version (i=>i.Updated).Column ("Updated");
+			//OptimisticLock.Version ();
 		}
 	}
 }

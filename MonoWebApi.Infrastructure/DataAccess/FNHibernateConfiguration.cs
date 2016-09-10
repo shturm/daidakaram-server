@@ -69,8 +69,16 @@ namespace MonoWebApi.Infrastructure
 			// caveat for setting relation on both entities.
 			// only required for this one-to-one relation
 			if (entity is Product) {
-				((Product)entity).Thumbnail.Product = (Product)entity;
+				if (((Product)entity).Thumbnail != null)
+				{
+					((Product)entity).Thumbnail.Product = (Product)entity;
+				}
 			}
+			//if (entity is Thumbnail) {
+			//	if (((Thumbnail)entity).Product != null) {
+			//		((Thumbnail)entity).Product = (Product)entity;
+			//	}
+			//}
 
 			return base.OnSave (entity, id, state, propertyNames, types);
 		}

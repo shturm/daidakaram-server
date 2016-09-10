@@ -15,16 +15,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NHibernate;
+using NHibernate.Linq;
 
 namespace Integration
 {
 	[TestFixture]
 	public class ProductControllerTests : ApiControllerTests<ProductController>
 	{
-		[TestFixtureTearDown]
-		public override void ShutDown ()
-		{
 
+		ISession Session;
+
+		[TestFixtureSetUp]
+		public override void Init ()
+		{
+			base.Init ();
+			Session = Scope.Resolve<ISession> ();
 		}
 
 		[SetUp]
@@ -32,17 +37,18 @@ namespace Integration
 		{
 			base.SetUp ();
 
-			var session = Scope.Resolve<ISession> ();
-			using (var tx = session.BeginTransaction ()) {
-				session.CreateSQLQuery ("truncate Product").List ();
-				session.CreateSQLQuery ("truncate Image").List ();
+			using (var tx = Session.BeginTransaction ()) {
+				Session.CreateSQLQuery ("truncate Product").List ();
+				Session.CreateSQLQuery ("truncate Image").List ();
 				tx.Commit ();
 			}
+			//Session.Flush ();
 		}
 
 		[TearDown]
 		public void TearDown ()
 		{
+			//Session.Dispose ();
 		}
 
 		[Test]
@@ -67,28 +73,34 @@ namespace Integration
 		[Category ("Integration")]
 		public async void AddImageToProduct ()
 		{
-			var product = new Product () { Name = "Add image to product test" };
 			var content = new MultipartFormDataContent ();
-			content.Add (new ByteArrayContent (new byte [] { 1, 2, 3, 4 }), "form-field-name-does-not-matter", "anyimg.jpg");
+			content.Add (new ByteArrayContent (new byte [] { 1, 2, 3 }), "form-field-name-does-not-matter", "anyimg.jpg");
+			content.Add (new ByteArrayContent (new byte [] { 1, 2, 3, 4 }), "form-field-name-does-not-matter2", "anyimg2.jpg");
 			Controller.Request.Content = content;
-
-			// REFACTOR persist `product`
+			var product = new Product () { Name = "add image to product test product" };
+			using (var tx = Session.BeginTransaction ()) {
+				Session.Save (product);
+				tx.Commit ();
+			}
+			//Session.Lock (product, LockMode.Upgrade);
 
 			var productImageIds = await Controller.AddImagesToProduct (product.Id);
+			//Session.Evict (product); // either this or get new session, otherwise serves cache and without Photos
+			Session.Flush ();
 
+			Product queryProduct = null;
+			using(var tx = Session.BeginTransaction ())
+			{
+				//queryProduct = Session.Load<Product> (1);
+				//queryProduct = Session.Get<Product> (1);
+				queryProduct = Session.Query<Product> ().FirstOrDefault ();
+				tx.Commit ();
+			}
 
-
-			// REFACTOR load `resultProduct` from db
-			Product resultProduct = null;
-
-			Assert.IsNotNull (resultProduct.Photos, "Could not get Photos list");
-
-			var actualImageIds = resultProduct.Photos.Select (i => i.Id).ToList ();
-
+			Assert.IsNotNull (queryProduct.Photos, "Could not get Photos list");
+			var actualImageIds = queryProduct.Photos.Select (i => i.Id).ToList ();
 
 			Assert.True (productImageIds.SequenceEqual (actualImageIds));
-
-
 		}
 
 		[Test]
@@ -97,13 +109,16 @@ namespace Integration
 		{
 			var photo = new Photo ();
 			int imageId = 0;
-			// REFACTOR save `image`
+			using(var tx = Session.BeginTransaction ())
+			{
+				Session.Save (photo);
+				tx.Commit ();
+			}
 			imageId = photo.Id;
 
 			Controller.DeleteImage (imageId);
 
-			// REFACTOR load all images in `result`
-			var result = new List<int> ();
+			var result = Session.Query<Photo> ().ToList ();
 			Assert.AreEqual (0, result.Count);
 		}
 
@@ -119,41 +134,45 @@ namespace Integration
 					secndImage
 				}
 			};
-
-			// REFACTOR persist `initialProduct`
+			using(var tx = Session.BeginTransaction ())
+			{
+				Session.Save (initialProduct);
+				tx.Commit ();
+			}
+			Session.Evict (initialProduct);
 
 			Controller.ChangeThumbnail (initialProduct.Id, 1);
 
 
+			var queriedProduct = Session.Get<Product> (1);
 
-			// REFACTOR load one (the only) product in `queriedProduct`
-			var queriedProduct = new Product();
-
-			// REFACTOR get total image count from db
-			int totalImagesCount = 42;
+			int totalImagesCount = Session.Query<Image> ().ToList ().Count;
 			Assert.AreEqual (3, totalImagesCount, "Total images not as much as expected");
 
 
 			Assert.IsNotNull (queriedProduct.Thumbnail, "No thumbnail set");
-
 		}
 
 		[Test]
 		[Category ("Integration")]
 		public void UpdateProductDetails ()
 		{
-			var p = new Product () {
-				Name = "name1",
+			var initialProduct = new Product () {
+				Name = "old name",
 				Description = "desc1"
 			};
 			//  REFACTOR persist product `p`
-			p.Name = "Updated name";
+			using(var tx = Session.BeginTransaction ())
+			{
+				Session.Save (initialProduct);
+				tx.Commit ();
+			}
 
-			Controller.UpdateProduct (p);
+			initialProduct.Name = "new name";
+			Controller.UpdateProduct (initialProduct);
 
-			// REFACTOR load product `pr`
-			var pr = new Product ();
-			Assert.AreEqual ("Updated name", pr.Name);
+			var pr = Session.Query<Product> ().Where (prod=>prod.Id ==initialProduct.Id).FirstOrDefault ();
+			Assert.AreEqual ("new name", pr.Name);
 		}
 	}
 }

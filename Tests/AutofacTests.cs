@@ -10,6 +10,7 @@ using NUnit.Framework;
 using MonoWebApi.Domain.Infrastructure;
 using MonoWebApi.Domain.Entities;
 using MonoWebApi.Infrastructure.Services;
+using NHibernate;
 
 namespace Integration
 {
@@ -22,13 +23,13 @@ namespace Integration
 			using (var scope = TestUtils.GetAutofacScope ())
 			{
 				// infrastructure
-				Assert.IsInstanceOf (typeof (IRepository<Product>), scope.Resolve<IRepository<Product>> ());
+				//Assert.IsInstanceOf (typeof (IRepository<Product>), scope.Resolve<IRepository<Product>> ());
 				Assert.IsInstanceOf (typeof (Repository<Product>), scope.Resolve<IRepository<Product>> ());
 				Assert.IsInstanceOf (typeof (ProductService), scope.Resolve<IProductService> ());
 				Assert.IsInstanceOf (typeof (ImageManipulator), scope.Resolve<IImageManipulator> ());
 				Assert.IsInstanceOf (typeof (MySQLDatabase), scope.Resolve<MySQLDatabase> ());
+				Assert.IsInstanceOf (typeof (ISession), scope.Resolve<ISession> ());
 			}
-
 		}
 	}
 }

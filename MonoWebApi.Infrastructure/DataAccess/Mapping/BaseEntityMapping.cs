@@ -16,6 +16,9 @@ namespace MonoWebApi.Infrastructure.DataAccess
 			Id (x => x.Id).GeneratedBy.Increment();
 			Map (x => x.Created).CustomType <UtcDateTimeType>();
 			Map (x => x.Updated).CustomType<UtcDateTimeType> ();
+
+			//Version (i => i.Updated).Column ("Updated");
+			//OptimisticLock.Version ();
 		}
 	}
 }

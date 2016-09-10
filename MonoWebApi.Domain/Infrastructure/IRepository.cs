@@ -11,7 +11,7 @@ namespace MonoWebApi.Domain.Infrastructure
 		IEnumerable<TEntity> GetAll (Expression<Func<TEntity, bool>> expression);
 		IEnumerable<TEntity> GetAll ();
 		TEntity Get (Expression<Func<TEntity, bool>> expression);
-		TEntity Get (long id);
+		TEntity Get (int id);
 		void Insert (TEntity entity);
 		void Insert (IList<TEntity> entity);
 		void Delete (TEntity entity);

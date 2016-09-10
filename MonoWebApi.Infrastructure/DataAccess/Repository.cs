@@ -21,16 +21,25 @@ namespace MonoWebApi.Infrastructure
 			_session = session;
 		}
 
-		public TEntity Get (long id)
+		public TEntity Get (int id)
 		{
-			throw new NotImplementedException ();
+			TEntity result;
+			using(var tx = _session.BeginTransaction ())
+			{
+				result = _session.Get<TEntity> (id);
+				tx.Commit ();
+			}
+			return result;
 		}
 
 		public TEntity Get (Expression<Func<TEntity, bool>> predicate)
 		{
+			TEntity result;
 			using (var tx = _session.BeginTransaction ()) {
-				return _session.Query<TEntity> ().Where (predicate).ToList ().FirstOrDefault ();
+				result = _session.Query<TEntity> ().Where (predicate).ToList ().FirstOrDefault ();
+				tx.Commit ();
 			}
+			return result;
 		}
 
 		public IEnumerable<TEntity> GetAll (Expression<Func<TEntity, bool>> expression)
@@ -40,15 +49,25 @@ namespace MonoWebApi.Infrastructure
 
 		public IEnumerable<TEntity> GetAll ()
 		{
+			IList<TEntity> result;
 			using (var tx = _session.BeginTransaction ()) {
-				return _session.CreateCriteria<TEntity> ().List<TEntity> ();
+				result = _session.CreateCriteria<TEntity> ().List<TEntity> ();
+				tx.Commit ();
 			}
+			return result;
 		}
 
 		public void Delete (TEntity entity)
 		{
-			using (_session.BeginTransaction ()) {
+			if (entity == null)
+			{
+				return;
+			}
+
+			using (var tx = _session.BeginTransaction ()) 
+			{
 				_session.Delete (entity);
+				tx.Commit ();
 			}
 		}
 

@@ -14,12 +14,14 @@ namespace Integration
 	public class PersistenceTests
 	{
 		ISession Session;
+		ILifetimeScope Scope;
 
 		[TestFixtureSetUp]
 		public void Init ()
 		{
 			try {
-				Session = TestUtils.GetAutofacScope ().Resolve<ISession> ();
+				Scope = TestUtils.GetAutofacScope ();
+				Session = Scope.Resolve<ISession> ();
 			} catch (Exception ex) {
 				Console.WriteLine (ex.InnerException.Message);
 				throw (ex);
@@ -67,7 +69,10 @@ namespace Integration
 				};
 				Session.Save (preparedProduct);
 				tx.Commit ();
+			}
 
+			using (var tx = Session.BeginTransaction ())
+			{
 				var actualProduct = Session.Get<Product> (1);
 				Assert.AreEqual (2, actualProduct.Photos.Count ());
 			}

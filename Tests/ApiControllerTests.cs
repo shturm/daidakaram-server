@@ -21,12 +21,12 @@ namespace Integration
 		[TestFixtureSetUp]
 		public virtual void Init ()
 		{
+			Scope = TestUtils.GetAutofacScope ();
 		}
 
 		[SetUp]
 		public virtual void SetUp ()
 		{
-			Scope = TestUtils.GetAutofacScope ();
 			try {
 				Controller = Scope.Resolve<TController> ();
 			} catch (Exception ex) {
@@ -40,6 +40,7 @@ namespace Integration
 		[TestFixtureTearDown]
 		public virtual void ShutDown()
 		{
+			Scope.Dispose ();
 		}
 	}
 }

@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UserManagerTests.cs" />
-    <Compile Include="RepositoryTests.cs" />
     <Compile Include="ProductControllerTests.cs" />
     <Compile Include="ApiControllerTests.cs" />
     <Compile Include="AutofacTests.cs" />

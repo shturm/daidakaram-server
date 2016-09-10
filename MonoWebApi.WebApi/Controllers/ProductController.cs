@@ -100,7 +100,7 @@ namespace MonoWebApi.Infrastructure.WebApi.Controllers
 
 				  foreach (MultipartFileData f in srTask.Result.FileData) {
 					var photo = new Photo () { Bytes = File.ReadAllBytes (f.LocalFileName) };
-					  _productService.AddImage (productId, photo);
+					  _productService.AddPhoto (productId, photo);
 					  imageIds.Add (photo.Id);
 				  }
 

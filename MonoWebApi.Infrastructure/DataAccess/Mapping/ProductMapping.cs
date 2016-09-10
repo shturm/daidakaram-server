@@ -22,7 +22,7 @@ namespace MonoWebApi.Infrastructure.DataAccess
 			HasMany<Photo> (x=>x.Photos)
 				//.PropertyRef ("Product")
 				.Cascade.All ();
-
+			
 		}
 	}
 }
