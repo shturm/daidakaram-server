@@ -126,12 +126,10 @@ namespace Integration
 		[Category ("Integration")]
 		public void ChangeThumbnail ()
 		{
-			var firstImage = new Photo ();
-			var secndImage = new Photo ();
 			var initialProduct = new Product () {
 				Photos = new List<Photo> {
-					firstImage,
-					secndImage
+					new Photo (),
+					new Photo()
 				}
 			};
 			using(var tx = Session.BeginTransaction ())
@@ -139,12 +137,12 @@ namespace Integration
 				Session.Save (initialProduct);
 				tx.Commit ();
 			}
-			Session.Evict (initialProduct);
+			//Session.Evict (initialProduct);
 
 			Controller.ChangeThumbnail (initialProduct.Id, 1);
 
 
-			var queriedProduct = Session.Get<Product> (1);
+			var queriedProduct = Session.Query<Product> ().Where (prod=>prod.Id == initialProduct.Id).FirstOrDefault ();
 
 			int totalImagesCount = Session.Query<Image> ().ToList ().Count;
 			Assert.AreEqual (3, totalImagesCount, "Total images not as much as expected");
@@ -161,7 +159,6 @@ namespace Integration
 				Name = "old name",
 				Description = "desc1"
 			};
-			//  REFACTOR persist product `p`
 			using(var tx = Session.BeginTransaction ())
 			{
 				Session.Save (initialProduct);
