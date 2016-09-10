@@ -1,15 +1,15 @@
 ﻿using System;
 using Autofac;
 using Autofac.Integration.WebApi;
-using MonoWebApi.Infrastructure.WebApi.Controllers;
-using MonoWebApi.Domain;
+using DaiDaKaram.Infrastructure.WebApi.Controllers;
+using DaiDaKaram.Domain;
 using NUnit.Framework;
 using System.Configuration;
 using System.Web.Http.Hosting;
 using System.Web.Http;
 using System.Net.Http;
 using Newtonsoft.Json;
-using MonoWebApi.Domain.Entities;
+using DaiDaKaram.Domain.Entities;
 using System.Collections.Generic;
 
 using System.Linq;

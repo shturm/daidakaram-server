@@ -1,13 +1,13 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoWebApi.Infrastructure", "MonoWebApi.Infrastructure\MonoWebApi.Infrastructure.csproj", "{EA39CDB7-FD61-4C9C-822B-60C8D0EC83D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaiDaKaram.Infrastructure", "DaiDaKaram.Infrastructure\DaiDaKaram.Infrastructure.csproj", "{EA39CDB7-FD61-4C9C-822B-60C8D0EC83D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoWebApi.Domain", "MonoWebApi.Domain\MonoWebApi.Domain.csproj", "{4C64FCF4-4535-4EEF-A259-4BEF7E3E5B7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaiDaKaram.Domain", "DaiDaKaram.Domain\DaiDaKaram.Domain.csproj", "{4C64FCF4-4535-4EEF-A259-4BEF7E3E5B7B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{3E116A62-7FF7-4578-AD35-7BDA42252612}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoWebApi.WebApi", "MonoWebApi.WebApi\MonoWebApi.WebApi.csproj", "{9C9D381F-80CD-4260-A5D1-3C2EB2DAA460}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaiDaKaram.WebApi", "DaiDaKaram.WebApi\DaiDaKaram.WebApi.csproj", "{9C9D381F-80CD-4260-A5D1-3C2EB2DAA460}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

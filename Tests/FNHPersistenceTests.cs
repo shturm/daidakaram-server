@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using FluentNHibernate.Testing;
-using MonoWebApi.Domain.Entities;
+using DaiDaKaram.Domain.Entities;
 using NHibernate;
 using NUnit.Framework;
 

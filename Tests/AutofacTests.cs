@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Reflection;
-using MonoWebApi.Infrastructure;
-using MonoWebApi.Infrastructure.WebApi;
-using MonoWebApi.Domain;
+using DaiDaKaram.Infrastructure;
+using DaiDaKaram.Infrastructure.WebApi;
+using DaiDaKaram.Domain;
 
 using Autofac;
 using Autofac.Integration.WebApi;
 using NUnit.Framework;
-using MonoWebApi.Domain.Infrastructure;
-using MonoWebApi.Domain.Entities;
-using MonoWebApi.Infrastructure.Services;
+using DaiDaKaram.Domain.Infrastructure;
+using DaiDaKaram.Domain.Entities;
+using DaiDaKaram.Infrastructure.Services;
 using NHibernate;
 
 namespace Integration

@@ -3,9 +3,9 @@ using System.Configuration;
 using System.Reflection;
 using Autofac;
 using Autofac.Integration.WebApi;
-using MonoWebApi.Domain;
-using MonoWebApi.Infrastructure;
-using MonoWebApi.Infrastructure.WebApi;
+using DaiDaKaram.Domain;
+using DaiDaKaram.Infrastructure;
+using DaiDaKaram.Infrastructure.WebApi;
 using NHibernate;
 
 namespace Integration
