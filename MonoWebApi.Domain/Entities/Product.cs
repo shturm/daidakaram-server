@@ -6,9 +6,13 @@ namespace MonoWebApi.Domain.Entities
 {
 	public class Product : BaseEntity
 	{
+		public Product () :base()
+		{
+			Photos = new List<Photo> ();
+		}
 		public virtual string Name { get; set; }
 		public virtual string Description { get; set; }
-		public virtual IList<Image> Photos { get; set; }
-		public virtual Image Thumbnail { get; set; }
+		public virtual IList<Photo> Photos { get; set; }
+		public virtual Thumbnail Thumbnail { get; set; }
 	}
 }

@@ -1,3 +1,0 @@
-truncate  Ingredient;
-truncate Recipe;
-truncate  IngredientsRecipes;

@@ -66,7 +66,7 @@ namespace MonoWebApi.Infrastructure.WebApi
 			);
 
 			var builder = new ContainerBuilder ();
-			builder.RegisterApiControllers (Assembly.GetExecutingAssembly ()); // TODO move to Infrastructure configuration
+			builder.RegisterApiControllers (Assembly.GetExecutingAssembly ());
 			AutofacDomainConfiguration.Configure (builder);
 			AutofacInfrastructureConfiguration.Configure (builder); 
 			var container = builder.Build ();

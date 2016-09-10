@@ -1,10 +1,12 @@
-using NHibernate;
+using System;
 using Autofac;
 using Autofac.Integration.WebApi;
 using MonoWebApi.Infrastructure.Services;
-using MonoWebApi.Infrastructure.DataAccess;
 using MonoWebApi.Domain.Infrastructure;
 using System.Reflection;
+using MonoWebApi.Domain.Entities;
+using NHibernate;
+using System.Diagnostics;
 
 namespace MonoWebApi.Infrastructure
 {
@@ -12,15 +14,23 @@ namespace MonoWebApi.Infrastructure
 	{
 		public static void Configure(ContainerBuilder builder)
 		{
-			//var session = NHibernateConfiguration.OpenSession ();
-			//builder.Register (c => {
-			//	return NHibernateConfiguration.OpenSession ();
-			//}).As <ISession>().InstancePerLifetimeScope ();
+			//builder.RegisterGeneric <Repository<>>().As <IRepository<>>();
 
-			builder.Register (c => NHibernateConfiguration.OpenSession()).As <ISession>();
+			ISession nhSession = null;
+
 			builder.RegisterGeneric (typeof(Repository<>)).As (typeof(IRepository<>));
-			builder.RegisterType<MyInfrastructureService> ().AsImplementedInterfaces ();
-			builder.RegisterType<ImageService> ().AsImplementedInterfaces ();
+			builder.RegisterType<ImageManipulator> ().AsImplementedInterfaces ();
+			builder.Register<MySQLDatabase> (c => new MySQLDatabase ()).As (typeof(MySQLDatabase));
+
+			builder.Register (c => {
+				if (nhSession == null || !nhSession.IsOpen)
+				{
+					nhSession = FNHibernateConfiguration.OpenSession ();	
+					Console.WriteLine ("Session initiated ");
+				}
+
+				return nhSession;
+			}).As <ISession> ();
 		}
 	}
 }

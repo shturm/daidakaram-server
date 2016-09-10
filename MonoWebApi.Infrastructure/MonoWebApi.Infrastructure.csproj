@@ -42,12 +42,6 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="FluentNHibernate">
-      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -61,39 +55,44 @@
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IdentityMySQL\UserTable.cs" />
-    <Compile Include="IdentityMySQL\UserStore.cs" />
-    <Compile Include="IdentityMySQL\UserRoleTable.cs" />
-    <Compile Include="IdentityMySQL\UserLoginsTable.cs" />
-    <Compile Include="IdentityMySQL\UserClaimsTable.cs" />
-    <Compile Include="IdentityMySQL\RoleTable.cs" />
-    <Compile Include="IdentityMySQL\RoleStore.cs" />
-    <Compile Include="IdentityMySQL\MySQLDatabase.cs" />
-    <Compile Include="IdentityMySQL\IdentityUser.cs" />
-    <Compile Include="IdentityMySQL\IdentityRole.cs" />
-    <Compile Include="IdentityMySQL\UserManager.cs" />
-    <Compile Include="Services\MyInfrastructureService.cs" />
+    <Compile Include="Identity\UserTable.cs" />
+    <Compile Include="Identity\UserStore.cs" />
+    <Compile Include="Identity\UserRoleTable.cs" />
+    <Compile Include="Identity\UserLoginsTable.cs" />
+    <Compile Include="Identity\UserClaimsTable.cs" />
+    <Compile Include="Identity\RoleTable.cs" />
+    <Compile Include="Identity\RoleStore.cs" />
+    <Compile Include="Identity\IdentityUser.cs" />
+    <Compile Include="Identity\IdentityRole.cs" />
+    <Compile Include="Identity\UserManager.cs" />
     <Compile Include="AutofacInfrastructureConfiguration.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="DataAccess\NHibernateConfiguration.cs" />
-    <Compile Include="DataAccess\NHM2MTableNameConvention.cs" />
-    <Compile Include="DataAccess\Mapping\BaseEntityMapping.cs" />
-    <Compile Include="DataAccess\Mapping\ProductMapping.cs" />
+    <Compile Include="Services\ImageManipulator.cs" />
+    <Compile Include="DataAccess\MySQLDatabase.cs" />
+    <Compile Include="DataAccess\FNHibernateConfiguration.cs" />
     <Compile Include="DataAccess\Mapping\ImageMapping.cs" />
-    <Compile Include="Services\ImageService.cs" />
-    <Compile Include="DataAccess\NHAutoMappingConfiguration.cs" />
+    <Compile Include="DataAccess\Mapping\ProductMapping.cs" />
+    <Compile Include="DataAccess\Mapping\BaseEntityMapping.cs" />
+    <Compile Include="DataAccess\Mapping\ThumbnailMapping.cs" />
+    <Compile Include="DataAccess\Mapping\PhotoMapping.cs" />
+    <Compile Include="DataAccess\Repository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="IdentityMySQL\" />
+    <Folder Include="Identity\" />
     <Folder Include="Services\" />
     <Folder Include="DataAccess\" />
+    <Folder Include="Repositories\" />
     <Folder Include="DataAccess\Mapping\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="IdentityMySQL\MySQLIdentity.sql" />
     <None Include="packages.config" />
     <None Include="app.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
