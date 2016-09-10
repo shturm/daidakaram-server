@@ -6,6 +6,7 @@ using Autofac.Integration.WebApi;
 using MonoWebApi.Domain;
 using MonoWebApi.Infrastructure;
 using MonoWebApi.Infrastructure.WebApi;
+using NHibernate;
 
 namespace Integration
 {
@@ -35,6 +36,17 @@ namespace Integration
 			builder.RegisterApiControllers (Assembly.GetAssembly (typeof (Startup)));
 			AutofacInfrastructureConfiguration.Configure (builder);
 			AutofacDomainConfiguration.Configure (builder);
+
+			ISession nhSession = null;
+			builder.Register (c => {
+				if (nhSession == null || !nhSession.IsOpen) {
+					nhSession = FNHibernateConfiguration.OpenSession ();
+					Console.WriteLine ("Session initiated ");
+				}
+
+				return nhSession;
+			}).As<ISession> ();
+
 			Container = builder.Build ();
 		}
 	}

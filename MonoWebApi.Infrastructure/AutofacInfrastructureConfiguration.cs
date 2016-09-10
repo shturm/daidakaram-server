@@ -16,21 +16,13 @@ namespace MonoWebApi.Infrastructure
 		{
 			//builder.RegisterGeneric <Repository<>>().As <IRepository<>>();
 
-			ISession nhSession = null;
+
 
 			builder.RegisterGeneric (typeof(Repository<>)).As (typeof(IRepository<>));
 			builder.RegisterType<ImageManipulator> ().AsImplementedInterfaces ();
 			builder.Register<MySQLDatabase> (c => new MySQLDatabase ()).As (typeof(MySQLDatabase));
 
-			builder.Register (c => {
-				if (nhSession == null || !nhSession.IsOpen)
-				{
-					nhSession = FNHibernateConfiguration.OpenSession ();	
-					Console.WriteLine ("Session initiated ");
-				}
-
-				return nhSession;
-			}).As <ISession> ();
+			builder.Register<ISession> (ctx => FNHibernateConfiguration.OpenSession ()).InstancePerRequest ();
 		}
 	}
 }
