@@ -15,19 +15,30 @@ namespace DaiDaKaram.Domain
 
 		IImageManipulator _imageManipulator;
 
-		public ProductService (IRepository<Product> productRepo, IRepository<Thumbnail> thumbRepo, IRepository<Photo> photoRepo, IImageManipulator imageManipulator)
+		IRepository<Category> _categoryRepository;
+
+
+		public ProductService (IRepository<Product> productRepo, 
+		                       IRepository<Thumbnail> thumbRepo,
+		                       IRepository<Photo> photoRepo, 
+		                       IImageManipulator imageManipulator,
+		                       IRepository<Category> categoryRepo)
 		{
 			_productRepository = productRepo;
 			_thumbnailRepository = thumbRepo;
 			_photoRepository = photoRepo;
 			_imageManipulator = imageManipulator;
+			_categoryRepository = categoryRepo;
 		}
 
-		public Product Create (string name, string description = null, List<Photo> photos = null, Thumbnail thumb = null)
+
+
+		public Product Create (string name, string sku, string description = null, List<Photo> photos = null, Thumbnail thumb = null)
 		{
 			Contract.Ensures (Contract.Result<Product> () != null);
 			var product = new Product () {
 				Name=name,
+				SKU=sku,
 				Description = description,
 				Photos = photos,
 				Thumbnail = thumb
@@ -94,6 +105,40 @@ namespace DaiDaKaram.Domain
 		public void Update (Product p)
 		{
 			_productRepository.Update (p);
+		}
+
+		public void ImportPhoto (string sku, byte [] photoBytes)
+		{
+			var photo = new Photo () { Bytes = photoBytes };
+			var product = _productRepository.Get (p => p.SKU == sku);
+
+			if (product == null)
+			{
+				product = new Product () { SKU = sku};
+			}
+
+			_imageManipulator.Watermark (ref photo);
+			product.Photos.Add (photo);
+
+			_productRepository.Insert (product);
+			ChangeThumbnail (product.Id, 0);
+		}
+
+		public void ImportProduct (string typeName, string groupName, string productName, string sku, string oem)
+		{
+			var product = _productRepository.Get (p => p.SKU == sku) ??
+			                                new Product () { SKU = sku, Name = productName};
+			var category = _categoryRepository.Get (c => c.Name == groupName) ?? 
+			                                  new Category () { Name = groupName };
+			var topCategory = _categoryRepository.Get (c => c.Name == groupName) ??
+											  new Category () { Name = typeName };
+			product.Category = category;
+			category.Products.Add (product);
+
+			category.Parent = topCategory;
+			topCategory.SubCategories.Add (category);
+
+			_categoryRepository.Insert (topCategory);
 		}
 	}
 }

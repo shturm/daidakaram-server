@@ -14,9 +14,10 @@ namespace DaiDaKaram.Infrastructure.DataAccess
 			//UseUnionSubclassForInheritanceMapping ();
 
 			Id (x => x.Id).GeneratedBy.Increment ();
-			Map (x => x.Created).CustomType<UtcDateTimeType> ().Default (DateTime.Now.ToString ());
+			Map (x => x.Created).CustomType<UtcDateTimeType> ();
 			Map (x => x.Updated).CustomType<UtcDateTimeType> ();
 			Map (x => x.Bytes);
+
 
 			// set 1 - saves correctly, reads on PKs
 			//References<Product> (x => x.Product)

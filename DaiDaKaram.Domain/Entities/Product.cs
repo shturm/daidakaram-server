@@ -12,7 +12,10 @@ namespace DaiDaKaram.Domain.Entities
 		}
 		public virtual string Name { get; set; }
 		public virtual string Description { get; set; }
+		public virtual Category Category { get; set;}
 		public virtual IList<Photo> Photos { get; set; }
 		public virtual Thumbnail Thumbnail { get; set; }
+		public virtual string SKU { get; set; }
+		public virtual string OEM { get; set; }
 	}
 }

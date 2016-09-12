@@ -12,7 +12,7 @@ namespace DaiDaKaram.Infrastructure
 {
 	public class AutofacInfrastructureConfiguration
 	{
-		public static void Configure(ContainerBuilder builder)
+		public static void Configure(ContainerBuilder builder, bool webApplication = false)
 		{
 			//builder.RegisterGeneric <Repository<>>().As <IRepository<>>();
 
@@ -22,7 +22,23 @@ namespace DaiDaKaram.Infrastructure
 			builder.RegisterType<ImageManipulator> ().AsImplementedInterfaces ();
 			builder.Register<MySQLDatabase> (c => new MySQLDatabase ()).As (typeof(MySQLDatabase));
 
-			builder.Register<ISession> (ctx => FNHibernateConfiguration.OpenSession ()).InstancePerRequest ();
+			// TODO use Autofac.Module instead
+			if (webApplication) {
+				// autofac takes care of only making 1 session per webapi/mvc request
+				builder.Register<ISession> (ctx => FNHibernateConfiguration.OpenSession ()).InstancePerRequest ();
+			} else {
+				// we take care of only making 1 session per webapi/mvc request
+				ISession nhSession = null;
+				builder.Register (c => {
+					if (nhSession == null || !nhSession.IsOpen) {
+						nhSession = FNHibernateConfiguration.OpenSession ();
+						Console.WriteLine ("Session initiated ");
+					}
+
+					return nhSession;
+				}).As<ISession> ();
+			}
+
 		}
 	}
 }

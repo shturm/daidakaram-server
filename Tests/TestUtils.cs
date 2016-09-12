@@ -34,18 +34,8 @@ namespace Integration
 
 			var builder = new ContainerBuilder ();
 			builder.RegisterApiControllers (Assembly.GetAssembly (typeof (Startup)));
-			AutofacInfrastructureConfiguration.Configure (builder);
+			AutofacInfrastructureConfiguration.Configure (builder, false);
 			AutofacDomainConfiguration.Configure (builder);
-
-			ISession nhSession = null;
-			builder.Register (c => {
-				if (nhSession == null || !nhSession.IsOpen) {
-					nhSession = FNHibernateConfiguration.OpenSession ();
-					Console.WriteLine ("Session initiated ");
-				}
-
-				return nhSession;
-			}).As<ISession> ();
 
 			Container = builder.Build ();
 		}

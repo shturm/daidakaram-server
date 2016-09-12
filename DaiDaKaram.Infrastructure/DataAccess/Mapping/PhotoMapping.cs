@@ -10,6 +10,7 @@ namespace DaiDaKaram.Infrastructure.DataAccess
 		public PhotoMapping ()
 		{
 			DiscriminatorValue ("no");
+			Map (i => i.Hash);
 			References<Product> (x => x.Product, "ProductId");
 		}
 	}

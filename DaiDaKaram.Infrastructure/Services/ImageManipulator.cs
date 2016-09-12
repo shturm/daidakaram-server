@@ -11,6 +11,11 @@ namespace DaiDaKaram.Infrastructure.Services
 			// TODO implement image resizing
 			return new Thumbnail() {Bytes = thumbnail.Bytes};
 		}
+
+		public void Watermark (ref Photo photo)
+		{
+			// TODO implement image watermark
+		}
 	}
 }
 

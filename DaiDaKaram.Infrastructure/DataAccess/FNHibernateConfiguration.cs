@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
+using System.Security.Cryptography;
 using DaiDaKaram.Domain.Entities;
 using NHibernate;
 using NHibernate.SqlCommand;
@@ -77,6 +78,18 @@ namespace DaiDaKaram.Infrastructure
 			//if (entity is Thumbnail) {
 			//	if (((Thumbnail)entity).Product != null) {
 			//		((Thumbnail)entity).Product = (Product)entity;
+			//	}
+			//}
+
+			//if (entity is Photo) {
+				
+			//	if (((Photo)entity).Hash == null) {
+			//		using(MD5 md5hash = MD5.Create ())
+			//		{
+			//			((Photo)entity).Hash = "";
+
+			//		}
+
 			//	}
 			//}
 

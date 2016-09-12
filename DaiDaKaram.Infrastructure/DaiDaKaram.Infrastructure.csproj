@@ -84,6 +84,7 @@
     <Compile Include="DataAccess\Mapping\ThumbnailMapping.cs" />
     <Compile Include="DataAccess\Mapping\PhotoMapping.cs" />
     <Compile Include="DataAccess\Repository.cs" />
+    <Compile Include="DataAccess\Mapping\CategoryMapping.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Identity\" />

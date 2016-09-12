@@ -57,7 +57,7 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 												   .Select (f => new Thumbnail () { Bytes = File.ReadAllBytes (f.LocalFileName) })
 												   .FirstOrDefault ();
 
-					var resultProduct = _productService.Create (name, description, photos, thumb);
+					var resultProduct = _productService.Create (name, null, description, photos, thumb);
 
 					return resultProduct;
 				});

@@ -68,7 +68,7 @@ namespace DaiDaKaram.Infrastructure.WebApi
 			var builder = new ContainerBuilder ();
 			builder.RegisterApiControllers (Assembly.GetExecutingAssembly ());
 			AutofacDomainConfiguration.Configure (builder);
-			AutofacInfrastructureConfiguration.Configure (builder); 
+			AutofacInfrastructureConfiguration.Configure (builder, true); 
 			var container = builder.Build ();
 
 			config.DependencyResolver = new AutofacWebApiDependencyResolver (container);
