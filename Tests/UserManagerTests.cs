@@ -1,13 +1,13 @@
 ﻿using NUnit.Framework;
 using System.Configuration;
-using MonoWebApi.Infrastructure;
+using DaiDaKaram.Infrastructure;
 using Autofac;
 using System.Collections.Generic;
 using System;
 
 namespace Integration
 {
-	using UserManager = MonoWebApi.Infrastructure.UserManager;
+	using UserManager = DaiDaKaram.Infrastructure.UserManager;
 
 	[TestFixture]
 	public class UserManagerTests
