@@ -9,24 +9,35 @@ using DaiDaKaram.Domain;
 using NUnit.Framework;
 using System.Web.Http.Hosting;
 using System.Web.Http;
+using NHibernate;
 
 namespace Integration
 {
 	[TestFixture]
 	public abstract class ApiControllerTests<TController> where TController : ApiController
 	{
-		public ILifetimeScope Scope { get; private set; }
-		public TController Controller { get; private set; }
+		protected ISession Session;
+
+		protected ILifetimeScope Scope { get; private set; }
+		protected TController Controller { get; private set; }
 
 		[TestFixtureSetUp]
 		public virtual void Init ()
 		{
 			Scope = TestUtils.GetAutofacScope ();
+			Session = Scope.Resolve<ISession> ();
 		}
 
 		[SetUp]
 		public virtual void SetUp ()
 		{
+			using (var tx = Session.BeginTransaction ()) {
+				Session.CreateSQLQuery ("truncate Product").List ();
+				Session.CreateSQLQuery ("truncate Category").List ();
+				Session.CreateSQLQuery ("truncate Image").List ();
+				tx.Commit ();
+			}
+
 			try {
 				Controller = Scope.Resolve<TController> ();
 			} catch (Exception ex) {

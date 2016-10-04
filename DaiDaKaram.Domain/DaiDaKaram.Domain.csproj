@@ -31,6 +31,7 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -45,6 +46,8 @@
     <Compile Include="Entities\Thumbnail.cs" />
     <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\Category.cs" />
+    <Compile Include="Interfaces\ICategoryService.cs" />
+    <Compile Include="Services\CategoryService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
