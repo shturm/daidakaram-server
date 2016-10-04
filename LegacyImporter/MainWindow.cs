@@ -27,6 +27,7 @@ public partial class MainWindow : Gtk.Window
 
 	public MainWindow (ISession session) : base (WindowType.Toplevel)
 	{
+
 		this._session = session;
 
 		ContainerBuilder builder = new ContainerBuilder ();
@@ -65,6 +66,13 @@ public partial class MainWindow : Gtk.Window
 		tvLog.Buffer.Insert (endIter, text + "\n");
 	}
 
+	void onTvLogInsertAtCrusor(object sender, EventArgs a)
+	{
+		
+	}
+
+
+	// import photos
 	protected void OnBtnImportClicked (object sender, EventArgs a)
 	{
 		Log ("===== Starting import ======");
@@ -91,35 +99,50 @@ public partial class MainWindow : Gtk.Window
 
 	}
 
+	// get count
 	protected void OnBtnRefreshClicked (object sender, EventArgs a)
 	{
 		lblCount.Text = "Querying...";
 		Task.Run (() => {
-			var count = _session.QueryOver<LegacyProduct> ()
-						   .Select (Projections.RowCount ())
-						   .FutureValue<int> ().Value;
+			var count = _session.CreateSQLQuery ("select count(*) from _stck.stcvols").List () [0];
 			lblCount.Text = count.ToString ();
 		});
 
 	}
 
-	protected void OnBtnImportProductsClick(object sender, EventArgs a)
+
+	// import products from view
+	protected void OnBtnImportProductsClick (object sender, EventArgs a)
 	{
 		int imported = 0;
 
 		Task.Run (() => {
 			try {
-				var legacyProducts = _session.QueryOver<LegacyProduct> ().List ();
-				Log (string.Format ("==== Importing {0} legacy products =====", legacyProducts.Count ()));
-				foreach (var product in legacyProducts) {
-					_productService.ImportProduct (product.TypeName,
-					                               product.GroupName,
-					                               product.ItemName,
-					                               product.SKU,
-					                               product.OEM);
-					Log (string.Format ("#{0} {1} {2} {3}",
-									   product.SKU, product.TypeName, product.GroupName, product.ItemName));
-					imported++;
+				int _pageNumber = 0;
+				int _pageSize = 50;
+				Log (string.Format ("==== Importing {0} legacy products =====", _session.CreateSQLQuery ("select count(*) from _stck.stcvols").List () [0]));
+				while (true) {
+					Log ($" == Getting page {_pageNumber}...");
+					var legacyProducts = _session.Query<LegacyProduct> ()
+												 .Skip (_pageNumber * _pageSize)
+												 .Take (_pageSize)
+					                             .ToList ();
+					
+					foreach (var product in legacyProducts) {
+						_productService.ImportProduct (product.TypeName,
+													   product.GroupName,
+													   product.ItemName,
+													   product.SKU,
+													   product.OEM);
+						Log (string.Format ("#{0} {1} {2} {3}",
+										   product.SKU, product.TypeName, product.GroupName, product.ItemName));
+						imported++;
+					}
+					_pageNumber++;
+					if (legacyProducts.Count < _pageSize) break;
+
+					_session.Flush ();
+					_session.Clear ();
 				}
 			} catch (Exception ex) {
 				Console.WriteLine (ex.Message);
@@ -127,7 +150,7 @@ public partial class MainWindow : Gtk.Window
 			}
 
 
-		}).ContinueWith ((t)=>{
+		}).ContinueWith ((t) => {
 			Log (string.Format ("==== Done. {0} imported ====", imported));
 		});
 	}

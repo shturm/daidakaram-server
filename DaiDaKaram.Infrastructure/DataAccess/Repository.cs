@@ -44,7 +44,13 @@ namespace DaiDaKaram.Infrastructure
 
 		public IEnumerable<TEntity> GetAll (Expression<Func<TEntity, bool>> expression)
 		{
-			throw new NotImplementedException ();
+			IEnumerable<TEntity> result;
+			using (var tx = _session.BeginTransaction ()) {
+				result = _session.Query<TEntity> ().Where (expression).ToList ();
+				tx.Commit ();
+			}
+
+			return result;
 		}
 
 		public IEnumerable<TEntity> GetAll ()

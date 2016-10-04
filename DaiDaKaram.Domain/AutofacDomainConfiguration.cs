@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Autofac;
+using DaiDaKaram.Domain.Entities;
 using DaiDaKaram.Domain.Infrastructure;
 
 namespace DaiDaKaram.Domain
@@ -10,6 +11,7 @@ namespace DaiDaKaram.Domain
 		public static void Configure(ContainerBuilder builder)
 		{
 			builder.RegisterType<ProductService> ().AsImplementedInterfaces ();
+			builder.RegisterType<CategoryService> ().As<ICategoryService>();
 		}
 	}
 }

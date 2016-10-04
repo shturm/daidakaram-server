@@ -1,2 +1,2 @@
-﻿<%@ Application Inherits="MonoWebApi.Infrastructure.WebApi.Global" %>
+﻿<%@ Application Inherits="DaiDaKaram.Infrastructure.WebApi.Global" %>
 

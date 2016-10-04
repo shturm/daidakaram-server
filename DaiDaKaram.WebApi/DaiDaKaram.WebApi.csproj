@@ -98,6 +98,9 @@
     <Reference Include="Microsoft.Owin.Cors">
       <HintPath>..\packages\Microsoft.Owin.Cors.3.0.1\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />
@@ -117,6 +120,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\PromoteDemoteAdminUserCommand.cs" />
     <Compile Include="Controllers\ChangeEmailCommand.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />

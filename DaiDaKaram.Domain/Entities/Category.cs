@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace DaiDaKaram.Domain.Entities
 {
+	[DataContract (IsReference = true)]
 	public class Category : BaseEntity
 	{
 		public Category () : base()
@@ -10,10 +12,11 @@ namespace DaiDaKaram.Domain.Entities
 			Products = new List<Product> ();
 			SubCategories = new List<Category> ();
 		}
-		public virtual string Name { get; set; }
-		public virtual Category Parent { get; set;}
-		public virtual IList<Product> Products { get; set; }
-		public virtual IList<Category> SubCategories { get; set; }
+
+		[DataMember] public virtual string Name { get; set; }
+		[DataMember] public virtual Category Parent { get; set;}
+		[DataMember] public virtual IList<Product> Products { get; set; }
+		[DataMember] public virtual IList<Category> SubCategories { get; set; }
 
 	}
 }

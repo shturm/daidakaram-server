@@ -3,6 +3,8 @@ using System;
 using Owin;
 using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin;
+using Microsoft.Owin.Cors;
+using NHibernate.Proxy;
 
 // WebApi config
 using System.Net.Http.Formatting;
@@ -13,6 +15,7 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using System.Reflection;
 using DaiDaKaram.Domain;
+using System.Web.Http.Cors;
 
 [assembly: OwinStartup (typeof (DaiDaKaram.Infrastructure.WebApi.Startup), "Configure")]
 
@@ -42,13 +45,18 @@ namespace DaiDaKaram.Infrastructure.WebApi
 		void ConfigureWebApi(IAppBuilder app)
 		{
 			var config = new HttpConfiguration ();
+
 			ConfigureWebApi (config);
 			//app.UseWebApi (config); // TODO extensions method not available
 		}
 
 		public static void ConfigureWebApi(HttpConfiguration config)
 		{
-			// Web API configuration and services
+			//GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+
+			var dev = new EnableCorsAttribute ("https://daidakaram.com,http://localhost:4200", "*", "*");
+			config.EnableCors (dev);
+			//config.EnableCors (prod);
 
 			// Web API routes
 			config.MapHttpAttributeRoutes ();
@@ -87,5 +95,5 @@ namespace DaiDaKaram.Infrastructure.WebApi
 		{
 			
 		}
-}
+	}
 }

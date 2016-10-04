@@ -83,6 +83,7 @@
     <Compile Include="FNHPersistenceTests.cs" />
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="ProductServiceTests.cs" />
+    <Compile Include="CategoryControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

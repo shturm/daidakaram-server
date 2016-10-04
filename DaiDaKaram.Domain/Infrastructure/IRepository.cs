@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Linq.Expressions;
+using DaiDaKaram.Domain.Entities;
 
 namespace DaiDaKaram.Domain.Infrastructure
 {
