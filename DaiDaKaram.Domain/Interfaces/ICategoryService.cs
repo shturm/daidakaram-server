@@ -8,5 +8,7 @@ namespace DaiDaKaram.Domain
 	{
 		void AddCategory (Category c);
 		IEnumerable<Category> GetRootCategories ();
+		void Update (Category c);
+		void DeleteById (int categoryId);
 	}
 }

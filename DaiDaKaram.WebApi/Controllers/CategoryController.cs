@@ -32,7 +32,7 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 			var query = from c in rootCategories.AsQueryable ()
 						select new Category {
 							Name = c.Name,
-							SubCategories = new List<Category>(c.SubCategories)
+							SubCategories = new List<Category> (c.SubCategories)
 						};
 
 			//var result =  new [] {
@@ -52,11 +52,20 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 			//return query.ToList ();
 		}
 
-		[HttpGet]
-		[Route ("api/category/strings")]
-		public ICollection<string> GetString ()
+		[HttpPut]
+		[Route ("api/category")]
+		public Category Update (Category c)
 		{
-			return new string [] { "a", "b" };
+			_categoryService.Update (c);
+			return c;
 		}
+
+		[HttpDelete]
+		[Route ("api/category/delete/{categoryId}")]
+		public void Delete (int categoryId)
+		{
+			_categoryService.DeleteById (categoryId);
+		}
+
 	}
 }

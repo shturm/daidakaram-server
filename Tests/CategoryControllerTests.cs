@@ -61,6 +61,22 @@ namespace Integration
 			});
 			Assert.IsTrue (serialized.Contains ("child 1.1"), "child categories are not serialzied");
 		}
+
+		[Test]
+		[Category ("Integration")]
+		public void UpdateWhenNewSubCategory ()
+		{
+			var x = new Category () { Name = "Root Category" };
+			using (var tx = Session.BeginTransaction ()) {
+				Session.Save (x);
+				tx.Commit ();
+			}
+
+			x.SubCategories.Add (new Category () {Name="child"});
+			Controller.Update (x);
+
+			Assert.IsNotNull (x.SubCategories.First ().Id);
+		}
 	}
 
 	class CategoryComparer : IComparer

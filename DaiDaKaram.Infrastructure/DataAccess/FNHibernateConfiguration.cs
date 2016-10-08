@@ -32,7 +32,7 @@ namespace DaiDaKaram.Infrastructure
 			lock (lockObject) {
 				var connectionString = ConfigurationManager.ConnectionStrings ["DefaultConnection"].ConnectionString;
 				var configuration = Fluently.Configure ()
-				                            .Database (MySQLConfiguration.Standard.ConnectionString (connectionString).ShowSql ())
+				                            .Database (MySQLConfiguration.Standard.ConnectionString (connectionString))
 					//.Mappings (x => {
 					//	x.FluentMappings.AddFromAssembly (Assembly.GetExecutingAssembly ());
 					//	//x.FluentMappings.Conventions.Add <NHM2MTableNameConvention>();

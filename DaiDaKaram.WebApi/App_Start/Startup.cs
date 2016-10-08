@@ -54,7 +54,7 @@ namespace DaiDaKaram.Infrastructure.WebApi
 		{
 			//GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
-			var dev = new EnableCorsAttribute ("https://daidakaram.com,http://localhost:4200", "*", "*");
+			var dev = new EnableCorsAttribute ("http://daidakaram.com,http://localhost:4200", "*", "*");
 			config.EnableCors (dev);
 			//config.EnableCors (prod);
 
