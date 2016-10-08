@@ -41,6 +41,8 @@ namespace Integration
 		[Test]
 		[Category ("Integration")]
 		[Category ("Database")]
+		[Ignore]
+		[Description("Because legacy hierachy is not suitable for ecommerce")]
 		public void ImportProduct_CreatesNewHierachy_WhenNoneExists()
 		{
 			string sku = "stpd-42";

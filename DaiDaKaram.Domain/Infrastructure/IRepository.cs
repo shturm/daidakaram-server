@@ -19,5 +19,6 @@ namespace DaiDaKaram.Domain.Infrastructure
 		void Delete (IList<TEntity> entity);
 		void Update (TEntity entity);
 		void Update (IList<TEntity> entity);
+		IQueryable<TEntity> AsQueryable ();
 	}
 }

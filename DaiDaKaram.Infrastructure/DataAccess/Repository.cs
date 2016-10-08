@@ -113,9 +113,10 @@ namespace DaiDaKaram.Infrastructure
 			_session.Dispose ();
 		}
 
-
-
-
+		public IQueryable<TEntity> AsQueryable ()
+		{
+			return _session.Query<TEntity> ();
+		}
 	}
 }
 

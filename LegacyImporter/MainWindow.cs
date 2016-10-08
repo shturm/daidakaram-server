@@ -114,7 +114,7 @@ public partial class MainWindow : Gtk.Window
 	// import products from view
 	protected void OnBtnImportProductsClick (object sender, EventArgs a)
 	{
-		int imported = 0;
+		int totalImported = 0;
 
 		Task.Run (() => {
 			try {
@@ -123,6 +123,7 @@ public partial class MainWindow : Gtk.Window
 				Log (string.Format ("==== Importing {0} legacy products =====", _session.CreateSQLQuery ("select count(*) from _stck.stcvols").List () [0]));
 				while (true) {
 					Log ($" == Getting page {_pageNumber}...");
+					int importedForPage = 0;
 					var legacyProducts = _session.Query<LegacyProduct> ()
 												 .Skip (_pageNumber * _pageSize)
 												 .Take (_pageSize)
@@ -134,12 +135,15 @@ public partial class MainWindow : Gtk.Window
 													   product.ItemName,
 													   product.SKU,
 													   product.OEM);
-						Log (string.Format ("#{0} {1} {2} {3}",
-										   product.SKU, product.TypeName, product.GroupName, product.ItemName));
-						imported++;
+						//Log (string.Format ("#{0} {1} {2} {3}",
+						//				   product.SKU, product.TypeName, product.GroupName, product.ItemName));
+						totalImported++;
+						importedForPage++;
 					}
 					_pageNumber++;
-					if (legacyProducts.Count < _pageSize) break;
+					if (legacyProducts.Count < _pageSize) {
+						break;	
+					}
 
 					_session.Flush ();
 					_session.Clear ();
@@ -151,7 +155,7 @@ public partial class MainWindow : Gtk.Window
 
 
 		}).ContinueWith ((t) => {
-			Log (string.Format ("==== Done. {0} imported ====", imported));
+			Log (string.Format ("==== Done. {0} imported ====", totalImported));
 		});
 	}
 }

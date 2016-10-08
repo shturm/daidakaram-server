@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using DaiDaKaram.Domain.Entities;
 using DaiDaKaram.Domain.Infrastructure;
+using System.Text;
 
 namespace DaiDaKaram.Domain
 {
@@ -126,19 +127,32 @@ namespace DaiDaKaram.Domain
 
 		public void ImportProduct (string typeName, string groupName, string productName, string sku, string oem)
 		{
+			var sbName = new StringBuilder ();
+			if (!typeName.StartsWith ("^", StringComparison.InvariantCulture)) sbName.Append (typeName+" ");
+			if (!groupName.StartsWith ("^", StringComparison.InvariantCulture)) sbName.Append (groupName+" ");
+			sbName.Append (productName);
 			var product = _productRepository.Get (p => p.SKU == sku) ??
-			                                new Product () { SKU = sku, Name = productName};
-			var category = _categoryRepository.Get (c => c.Name == groupName) ?? 
-			                                  new Category () { Name = groupName };
-			var topCategory = _categoryRepository.Get (c => c.Name == groupName) ??
-											  new Category () { Name = typeName };
-			product.Category = category;
-			category.Products.Add (product);
+			                                new Product () { SKU = sku, Name = sbName.ToString ()};
 
-			category.Parent = topCategory;
-			topCategory.SubCategories.Add (category);
+			_productRepository.Update (product);
+			//product.Category = category;
+			//category.Products.Add (product);
 
-			_categoryRepository.Insert (topCategory);
+			//category.Parent = topCategory;
+			//topCategory.SubCategories.Add (category);
+
+			//_categoryRepository.Insert (topCategory);
+		}
+
+		public IEnumerable<Product> getPage (int pageNumber, int pageSize=20)
+		{
+			var query = from p in _productRepository.AsQueryable ()
+                        orderby p.SKU ascending, p.Name ascending, p.Price descending 
+						select new Product() { Name=p.Name, Price=p.Price, SKU=p.SKU, Id=p.Id };
+
+			return query.Skip (pageNumber * pageSize)
+				        .Take (pageSize)
+				        .ToList ();
 		}
 	}
 }

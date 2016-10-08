@@ -24,6 +24,14 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 			_productService = productService;
 		}
 
+		[HttpGet]
+		[Route("api/product")]
+		public IEnumerable<Product> GetPage (int pageNumber)
+		{
+			var result= _productService.getPage (pageNumber == 0 ? 0 : pageNumber-1);
+			return result;
+		}
+
 		[HttpPost]
 		[Route("api/product")]
 		public async Task<Product> CreateProduct ()

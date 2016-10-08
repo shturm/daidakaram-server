@@ -10,6 +10,7 @@ namespace DaiDaKaram.Infrastructure.DataAccess
 		{
 			Map (x => x.Name);
 			Map (x => x.Description);
+			Map (x => x.Price);
 			Map (x => x.SKU).Length (10).Unique ();
 			Map (x => x.OEM).Length (15);
 
