@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="/home/alx/src/daidakaram/server/Tests/bin/Debug/Tests.dll" total="18" errors="1" failures="16" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2016-10-09" time="15:02:32">
+  <environment nunit-version="2.6.3.0" clr-version="4.0.30319.42000" os-version="Unix 3.13.0.96" platform="Unix" cwd="/home/alx/src/daidakaram/server/Tests" machine-name="alx" user="alx" user-domain="alx" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="/home/alx/src/daidakaram/server/Tests/bin/Debug/Tests.dll" executed="True" result="Failure" success="False" time="0.131" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="Integration" executed="True" result="Failure" success="False" time="0.120" asserts="0">
+        <results>
+          <test-suite type="TestFixture" name="AutofacTests" executed="True" result="Failure" success="False" time="0.094" asserts="0">
+            <results>
+              <test-case name="Integration.AutofacTests.CanResolveClasses" executed="True" result="Error" success="False" time="0.023" asserts="0">
+                <failure>
+                  <message><![CDATA[System.Configuration.ConfigurationErrorsException : Duplicate element in collection]]></message>
+                  <stack-trace><![CDATA[at System.Configuration.ConfigurationElementCollection.BaseAdd (System.Configuration.ConfigurationElement element, System.Boolean throwIfExists) [0x00083] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at System.Configuration.ConfigurationElementCollection.BaseAdd (System.Configuration.ConfigurationElement element) [0x00008] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at System.Configuration.ConnectionStringSettingsCollection.Add (System.Configuration.ConnectionStringSettings settings) [0x00000] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at Integration.TestUtils.InitializeAutofacContainer () [0x00015] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+at Integration.TestUtils.GetAutofacScope () [0x0000c] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+at Integration.AutofacTests.CanResolveClasses () [0x00001] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="Integration.AutofacTests.LinqJoins" executed="True" result="Success" success="True" time="0.018" asserts="1">
+                <categories>
+                  <category name="Unit" />
+                </categories>
+              </test-case>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="CategoryControllerTests" executed="True" result="Error" success="False" time="0.007" asserts="0">
+            <failure>
+              <message><![CDATA[SetUp : System.Configuration.ConfigurationErrorsException : Duplicate element in collection]]></message>
+              <stack-trace><![CDATA[at System.Configuration.ConfigurationElementCollection.BaseAdd (System.Configuration.ConfigurationElement element, System.Boolean throwIfExists) [0x00083] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at System.Configuration.ConfigurationElementCollection.BaseAdd (System.Configuration.ConfigurationElement element) [0x00008] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at System.Configuration.ConnectionStringSettingsCollection.Add (System.Configuration.ConnectionStringSettings settings) [0x00000] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at Integration.TestUtils.InitializeAutofacContainer () [0x00015] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+at Integration.TestUtils.GetAutofacScope () [0x0000c] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+at Integration.ApiControllerTests`1[TController].Init () [0x00001] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+]]></stack-trace>
+            </failure>
+            <results>
+              <test-case name="Integration.CategoryControllerTests.GetRootCategories" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in CategoryControllerTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+              <test-case name="Integration.CategoryControllerTests.UpdateWhenNewSubCategory" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in CategoryControllerTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="PersistenceTests" executed="True" result="Error" success="False" time="0.003" asserts="0">
+            <failure>
+              <message><![CDATA[SetUp : System.NullReferenceException : Object reference not set to an instance of an object]]></message>
+              <stack-trace><![CDATA[at Integration.PersistenceTests.Init () [0x0002c] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+]]></stack-trace>
+            </failure>
+            <results>
+              <test-case name="Integration.PersistenceTests.CategoryPersistence_FNH" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Database" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in PersistenceTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+              <test-case name="Integration.PersistenceTests.CategoryPersistence_Session" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Database" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in PersistenceTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+              <test-case name="Integration.PersistenceTests.ProductPersistence_FNH" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Database" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in PersistenceTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+              <test-case name="Integration.PersistenceTests.ProductPersistence_Session" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Database" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in PersistenceTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="ProductControllerTests" executed="True" result="Error" success="False" time="0.003" asserts="0">
+            <failure>
+              <message><![CDATA[SetUp : System.Configuration.ConfigurationErrorsException : Duplicate element in collection]]></message>
+              <stack-trace><![CDATA[at System.Configuration.ConfigurationElementCollection.BaseAdd (System.Configuration.ConfigurationElement element, System.Boolean throwIfExists) [0x00083] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at System.Configuration.ConfigurationElementCollection.BaseAdd (System.Configuration.ConfigurationElement element) [0x00008] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at System.Configuration.ConnectionStringSettingsCollection.Add (System.Configuration.ConnectionStringSettings settings) [0x00000] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at Integration.TestUtils.InitializeAutofacContainer () [0x00015] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+at Integration.TestUtils.GetAutofacScope () [0x0000c] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+at Integration.ApiControllerTests`1[TController].Init () [0x00001] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+at Integration.ProductControllerTests.Init () [0x00001] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+]]></stack-trace>
+            </failure>
+            <results>
+              <test-case name="Integration.ProductControllerTests.AddImageToProduct" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in ProductControllerTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+              <test-case name="Integration.ProductControllerTests.ChangeThumbnail" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in ProductControllerTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+              <test-case name="Integration.ProductControllerTests.CreateProduct" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in ProductControllerTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+              <test-case name="Integration.ProductControllerTests.DeleteImage" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in ProductControllerTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+              <test-case name="Integration.ProductControllerTests.UpdateProductCategory" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in ProductControllerTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+              <test-case name="Integration.ProductControllerTests.UpdateProductDetails" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in ProductControllerTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="ProductServiceTests" executed="True" result="Error" success="False" time="0.001" asserts="0">
+            <failure>
+              <message><![CDATA[SetUp : System.Configuration.ConfigurationErrorsException : Duplicate element in collection]]></message>
+              <stack-trace><![CDATA[at System.Configuration.ConfigurationElementCollection.BaseAdd (System.Configuration.ConfigurationElement element, System.Boolean throwIfExists) [0x00083] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at System.Configuration.ConfigurationElementCollection.BaseAdd (System.Configuration.ConfigurationElement element) [0x00008] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at System.Configuration.ConnectionStringSettingsCollection.Add (System.Configuration.ConnectionStringSettings settings) [0x00000] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at Integration.TestUtils.InitializeAutofacContainer () [0x00015] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+at Integration.TestUtils.GetAutofacScope () [0x0000c] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+at Integration.ProductServiceTests.Init () [0x00001] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+]]></stack-trace>
+            </failure>
+            <results>
+              <test-case name="Integration.ProductServiceTests.ImportProduct_CreatesNewHierachy_WhenNoneExists" description="Because legacy hierachy is not suitable for ecommerce" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                  <category name="Database" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in ProductServiceTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="UserManagerTests" executed="True" result="Error" success="False" time="0.002" asserts="0">
+            <failure>
+              <message><![CDATA[SetUp : System.Configuration.ConfigurationErrorsException : Duplicate element in collection]]></message>
+              <stack-trace><![CDATA[at System.Configuration.ConfigurationElementCollection.BaseAdd (System.Configuration.ConfigurationElement element, System.Boolean throwIfExists) [0x00083] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at System.Configuration.ConfigurationElementCollection.BaseAdd (System.Configuration.ConfigurationElement element) [0x00008] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at System.Configuration.ConnectionStringSettingsCollection.Add (System.Configuration.ConnectionStringSettings settings) [0x00000] in <42f076b78acf4ebd9ea481aca766b25b>:0
+at Integration.TestUtils.InitializeAutofacContainer () [0x00015] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+at Integration.TestUtils.GetAutofacScope () [0x0000c] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+at Integration.UserManagerTests.Init () [0x00001] in <74318b5c977b4ce692ae1dda5d3d3f89>:0
+]]></stack-trace>
+            </failure>
+            <results>
+              <test-case name="Integration.UserManagerTests.CanInstantinate" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in UserManagerTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+              <test-case name="Integration.UserManagerTests.CreatesFindsAndDeletes" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in UserManagerTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+              <test-case name="Integration.UserManagerTests.FindAsync_WhenNoUsers_ReturnsNull" executed="True" result="Failure" success="False" time="0.000" asserts="0">
+                <categories>
+                  <category name="Integration" />
+                </categories>
+                <failure>
+                  <message><![CDATA[TestFixtureSetUp failed in UserManagerTests]]></message>
+                  <stack-trace />
+                </failure>
+              </test-case>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

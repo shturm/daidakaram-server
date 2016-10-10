@@ -10,7 +10,7 @@ namespace DaiDaKaram.Domain
 {
 	public class ProductService : IProductService
 	{
-		IRepository<Product> _productRepository;
+		IProductRepository _productRepository;
 		IRepository<Thumbnail> _thumbnailRepository;
 		IRepository<Photo> _photoRepository;
 
@@ -19,11 +19,11 @@ namespace DaiDaKaram.Domain
 		IRepository<Category> _categoryRepository;
 
 
-		public ProductService (IRepository<Product> productRepo, 
-		                       IRepository<Thumbnail> thumbRepo,
-		                       IRepository<Photo> photoRepo, 
-		                       IImageManipulator imageManipulator,
-		                       IRepository<Category> categoryRepo)
+		public ProductService (IProductRepository productRepo,
+							   IRepository<Thumbnail> thumbRepo,
+							   IRepository<Photo> photoRepo,
+							   IImageManipulator imageManipulator,
+							   IRepository<Category> categoryRepo)
 		{
 			_productRepository = productRepo;
 			_thumbnailRepository = thumbRepo;
@@ -38,22 +38,20 @@ namespace DaiDaKaram.Domain
 		{
 			Contract.Ensures (Contract.Result<Product> () != null);
 			var product = new Product () {
-				Name=name,
-				SKU=sku,
+				Name = name,
+				SKU = sku,
 				Description = description,
 				Photos = photos,
 				Thumbnail = thumb
 			};
 
-			if (product.Photos != null && product.Thumbnail == null)
-			{
+			if (product.Photos != null && product.Thumbnail == null) {
 				var thumbnail = _imageManipulator.ResizeToThumbnail (photos.First ());
 				product.Thumbnail = thumbnail;
 				thumbnail.Product = product;
 			}
 
-			if (product.Thumbnail != null)
-			{
+			if (product.Thumbnail != null) {
 				product.Thumbnail = _imageManipulator.ResizeToThumbnail (product.Thumbnail);
 			}
 
@@ -86,20 +84,20 @@ namespace DaiDaKaram.Domain
 			var product = _productRepository.Get (p => p.Id == productId);
 			if (product.Thumbnail != null)
 				_thumbnailRepository.Delete (product.Thumbnail);
-			
+
 
 			product.Thumbnail = _imageManipulator.ResizeToThumbnail (photo);
 			_productRepository.Update (product);
 		}
 
-		public void ChangeThumbnail(int productId, int photoIndex)
+		public void ChangeThumbnail (int productId, int photoIndex)
 		{
 			var product = _productRepository.Get (p => p.Id == productId);
 			_thumbnailRepository.Delete (product.Thumbnail);
 
 			product.Thumbnail = _imageManipulator.ResizeToThumbnail (product.Photos [photoIndex]);
 			product.Thumbnail.Product = product;
-			       
+
 			_productRepository.Update (product);
 		}
 
@@ -108,14 +106,18 @@ namespace DaiDaKaram.Domain
 			_productRepository.Update (p);
 		}
 
+		public Product Get(int id)
+		{
+			return _productRepository.Get (id);
+		}
+
 		public void ImportPhoto (string sku, byte [] photoBytes)
 		{
 			var photo = new Photo () { Bytes = photoBytes };
 			var product = _productRepository.Get (p => p.SKU == sku);
 
-			if (product == null)
-			{
-				product = new Product () { SKU = sku};
+			if (product == null) {
+				product = new Product () { SKU = sku };
 			}
 
 			_imageManipulator.Watermark (ref photo);
@@ -128,11 +130,11 @@ namespace DaiDaKaram.Domain
 		public void ImportProduct (string typeName, string groupName, string productName, string sku, string oem)
 		{
 			var sbName = new StringBuilder ();
-			if (!typeName.StartsWith ("^", StringComparison.InvariantCulture)) sbName.Append (typeName+" ");
-			if (!groupName.StartsWith ("^", StringComparison.InvariantCulture)) sbName.Append (groupName+" ");
+			if (!typeName.StartsWith ("^", StringComparison.InvariantCulture)) sbName.Append (typeName + " ");
+			if (!groupName.StartsWith ("^", StringComparison.InvariantCulture)) sbName.Append (groupName + " ");
 			sbName.Append (productName);
 			var product = _productRepository.Get (p => p.SKU == sku) ??
-			                                new Product () { SKU = sku, Name = sbName.ToString ()};
+											new Product () { SKU = sku, Name = sbName.ToString () };
 
 			_productRepository.Update (product);
 			//product.Category = category;
@@ -144,15 +146,33 @@ namespace DaiDaKaram.Domain
 			//_categoryRepository.Insert (topCategory);
 		}
 
-		public IEnumerable<Product> getPage (int pageNumber, int pageSize=20)
+		public IEnumerable<Product> GetPage (int pageNumber, int pageSize = 20)
 		{
-			var query = from p in _productRepository.AsQueryable ()
-                        orderby p.SKU ascending, p.Name ascending, p.Price descending 
-						select new Product() { Name=p.Name, Price=p.Price, SKU=p.SKU, Id=p.Id };
+			//var query = from p in _productRepository.AsQueryable ()
+			//			orderby p.SKU ascending, p.Name ascending, p.Price descending
+			//			select p;
+			//                   //select new Product () {
+			//			//	Name = p.Name,
+			//			//	Price = p.Price,
+			//			//	SKU = p.SKU,
+			//			//	Id = p.Id,
+			//			//	Category = new Category () {
+			//			//		Id = p.Category.Id,
+			//			//		Name = p.Category.Name
+			//			//	}
+			//			//};
 
-			return query.Skip (pageNumber * pageSize)
-				        .Take (pageSize)
-				        .ToList ();
+			//return query.Skip (pageNumber * pageSize)
+			//			.Take (pageSize)
+			//			.ToList ();
+
+			//return _productRepository.AsQueryable ()
+			//						 .OrderBy (p => p.SKU)
+			//						 .ThenByDescending (p => p.Name)
+			//						 .Skip (pageSize * pageNumber)
+			//						 .Take (pageSize);
+
+			return _productRepository.GetPage (pageNumber, pageSize);
 		}
 	}
 }

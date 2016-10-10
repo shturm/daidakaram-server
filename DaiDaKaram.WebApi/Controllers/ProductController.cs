@@ -12,6 +12,7 @@ using System.Web.Http;
 using DaiDaKaram.Domain;
 using DaiDaKaram.Domain.Entities;
 using System.Collections.Generic;
+using DaiDaKaram.Domain.Infrastructure;
 
 namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 {
@@ -19,16 +20,21 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 	{
 		IProductService _productService;
 
-		public ProductController (IProductService productService)
+		readonly IRepository<Category> _categoryService;
+
+
+		public ProductController (IProductService productService, IRepository<Category> categoryService)
 		{
 			_productService = productService;
+			_categoryService = categoryService;
 		}
 
 		[HttpGet]
 		[Route("api/product")]
-		public IEnumerable<Product> GetPage (int pageNumber)
+		public IEnumerable<ProductDto> GetPage (int pageNumber)
 		{
-			var result= _productService.getPage (pageNumber == 0 ? 0 : pageNumber-1);
+			var products = _productService.GetPage (pageNumber == 0 ? 0 : pageNumber-1);
+			var result = products.Select (p => new ProductDto (p)).ToList ();
 			return result;
 		}
 
@@ -127,8 +133,17 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 
 		[HttpPut]
 		[Route ("api/product")]
-		public void UpdateProduct (Product p)
+		public void UpdateProduct ([FromBody]ProductDto pDto)
 		{
+			Product p = _productService.Get (pDto.Id);
+			p.Name = pDto.Name;
+			p.SKU = pDto.SKU;
+			p.Price = pDto.Price;
+			if (pDto.CategoryId != null) {
+				Category c = _categoryService.AsQueryable ()
+				                             .Where (cat=>cat.Id == pDto.CategoryId).First ();
+				p.Category = c;
+			}
 			_productService.Update (p);
 		}
 	}

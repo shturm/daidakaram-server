@@ -15,7 +15,7 @@ namespace DaiDaKaram.Domain.Entities
 		[DataMember] public virtual string Name { get; set; }
 		public virtual string Description { get; set; }
 		[DataMember] public virtual decimal Price { get; set;}
-		public virtual Category Category { get; set;}
+		[DataMember] public virtual Category Category { get; set;}
 		public virtual IList<Photo> Photos { get; set; }
 		public virtual Thumbnail Thumbnail { get; set; }
 		[DataMember] public virtual string SKU { get; set; }

@@ -171,5 +171,39 @@ namespace Integration
 			var pr = Session.Query<Product> ().Where (prod=>prod.Id ==initialProduct.Id).FirstOrDefault ();
 			Assert.AreEqual ("new name", pr.Name);
 		}
+
+		[Test]
+		[Category ("Integration")]
+		public void UpdateProductCategory ()
+		{
+			var p = new Product () { Name = "update product category" };
+			var sc = new Category () { Name = "assigned category" };
+			var c = new Category () { 
+				Name = "parent",
+				SubCategories = new List<Category>() {sc}
+			};
+			sc.Parent = c;
+			using (var tx = Session.BeginTransaction ()) {
+				Session.Save (p);
+				Session.Save (c);
+				Session.Save (sc);
+				tx.Commit ();
+			}
+
+			Session.Evict (p);
+			Session.Evict (c);
+
+			p.Category = new Category () { Name="assigned", Id = sc.Id} ; // dto
+
+			Controller.UpdateProduct (p);
+
+			Session.Refresh (p);
+			Session.Refresh (c);
+
+			Assert.AreEqual (c.SubCategories.First ().Id, p.Category.Id, "Product has category");
+			Assert.AreEqual (c.Id, p.Category.Parent.Id, "Assigned category remains child of the Parent category");
+			Assert.AreEqual (2, Session.Query<Category> ().ToList ().Count,"Category count is not changed");
+			//Assert.AreEqual (p, c.SubCategories.First ().Products.First (), "Product is added in category");
+		}
 	}
 }

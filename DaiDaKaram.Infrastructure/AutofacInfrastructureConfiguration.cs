@@ -7,6 +7,7 @@ using System.Reflection;
 using DaiDaKaram.Domain.Entities;
 using NHibernate;
 using System.Diagnostics;
+using DaiDaKaram.Domain;
 
 namespace DaiDaKaram.Infrastructure
 {
@@ -19,6 +20,7 @@ namespace DaiDaKaram.Infrastructure
 
 
 			builder.RegisterGeneric (typeof(Repository<>)).As (typeof(IRepository<>));
+			builder.RegisterType<ProductRepostiroy> ().As <IProductRepository>();
 			builder.RegisterType<ImageManipulator> ().AsImplementedInterfaces ();
 			builder.Register<MySQLDatabase> (c => new MySQLDatabase ()).As (typeof(MySQLDatabase));
 

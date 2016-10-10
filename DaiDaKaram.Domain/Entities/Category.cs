@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 namespace DaiDaKaram.Domain.Entities
 {
 	[DataContract (IsReference = true)]
+	[KnownType (typeof (Product))]
+	[KnownType (typeof (Category))]
 	public class Category : BaseEntity
 	{
 		public Category () : base()

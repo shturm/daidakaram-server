@@ -12,8 +12,10 @@ namespace DaiDaKaram.Domain
 		void ChangeThumbnail (int productId, int photoIndex);
 		void Update (Product p);
 
+		Product Get (int id);
+
 		void ImportPhoto (string sku, byte[] photoBytes);
 		void ImportProduct (string typeName, string groupName, string productName, string sku, string oem);
-		IEnumerable<Product> getPage (int pageNumber, int pageSize=20);
-	}
+		IEnumerable<Product> GetPage (int pageNumber, int pageSize=20);
+}
 }

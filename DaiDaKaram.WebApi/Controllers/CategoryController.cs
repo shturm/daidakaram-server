@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using DaiDaKaram.Domain;
 using DaiDaKaram.Domain.Entities;
+using System.Runtime.Serialization;
 
 namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 {
@@ -67,5 +68,25 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 			_categoryService.DeleteById (categoryId);
 		}
 
+		//[HttpGet]
+		//[Route ("api/category/ref")]
+		//public Item GetItems()
+		//{
+		//	var i = new Item () {Name="aaa"};
+		//	i.Children = new List<Item> () {
+		//		new Item() {Name="a1", Parent=i},
+		//		new Item() {Name="a2", Parent=i},
+		//		new Item() {Name="a3", Parent=i}
+		//	};
+		//	return i;
+		//}
+
+		//[DataContract(IsReference = true)]
+		//public class Item
+		//{
+		//	[DataMember] public string Name { get; set;}
+		//	[DataMember] public Item Parent { get; set; }
+		//	[DataMember] public List<Item> Children { get; set;}
+		//}
 	}
 }

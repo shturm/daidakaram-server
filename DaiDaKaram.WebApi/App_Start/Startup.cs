@@ -3,8 +3,6 @@ using System;
 using Owin;
 using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin;
-using Microsoft.Owin.Cors;
-using NHibernate.Proxy;
 
 // WebApi config
 using System.Net.Http.Formatting;
@@ -86,7 +84,12 @@ namespace DaiDaKaram.Infrastructure.WebApi
 			//config.Formatters.Add (new JsonMediaTypeFormatter());
 			//config.Formatters.Add (new FormUrlEncodedMediaTypeFormatter ());
 
+
 			var settings = config.Formatters.JsonFormatter.SerializerSettings;
+
+			settings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+			settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
 			settings.Formatting = Formatting.Indented;
 			settings.ContractResolver = new CamelCasePropertyNamesContractResolver ();
 		}

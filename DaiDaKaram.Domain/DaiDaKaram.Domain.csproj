@@ -48,6 +48,7 @@
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Interfaces\ICategoryService.cs" />
     <Compile Include="Services\CategoryService.cs" />
+    <Compile Include="Interfaces\IProductRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />

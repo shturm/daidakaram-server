@@ -14,7 +14,7 @@ namespace DaiDaKaram.Infrastructure
 		{
 		}
 
-		readonly ISession _session;
+		protected readonly ISession _session;
 
 		public Repository (ISession session)
 		{
