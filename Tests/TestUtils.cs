@@ -29,7 +29,7 @@ namespace Integration
 			ConfigurationManager.ConnectionStrings.Add (
 				new ConnectionStringSettings (
 					"DefaultConnection",
-					"Server=localhost;Database=daidakaram-test;Uid=uniuser;Pwd=unipass;")
+					"Server=localhost;Database=daidakaram-test;Uid=uniuser;Pwd=unipass;CharSet=utf8;Convert Zero Datetime=True")
 			);
 
 			var builder = new ContainerBuilder ();

@@ -49,6 +49,11 @@
     <Compile Include="Interfaces\ICategoryService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Interfaces\IProductRepository.cs" />
+    <Compile Include="Interfaces\ICompatibilityService.cs" />
+    <Compile Include="Services\CompatibilityService.cs" />
+    <Compile Include="Entities\Compatibility.cs" />
+    <Compile Include="Interfaces\ICarRepository.cs" />
+    <Compile Include="Entities\Car.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />

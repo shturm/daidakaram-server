@@ -14,8 +14,8 @@ namespace DaiDaKaram.Domain
 
 		Product Get (int id);
 
-		void ImportPhoto (string sku, byte[] photoBytes);
+		void ImportPhoto (string sku, byte [] photoBytes);
 		void ImportProduct (string typeName, string groupName, string productName, string sku, string oem);
-		IEnumerable<Product> GetPage (int pageNumber, int pageSize=20);
-}
+		IEnumerable<Product> GetPage (int pageNumber, int pageSize = 20);
+	}
 }

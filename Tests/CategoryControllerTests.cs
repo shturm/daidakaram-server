@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Linq;
 using Newtonsoft.Json;
 using Autofac;
@@ -19,6 +20,8 @@ using System.Reflection;
 using NHibernate;
 using NHibernate.Linq;
 using System.Collections;
+using System.Text;
+using System.IO;
 
 namespace Integration
 {
@@ -29,6 +32,7 @@ namespace Integration
 		[Category ("Integration")]
 		public void GetRootCategories ()
 		{
+			// arrange
 			var c1 = new Category () {
 				Name = "Root 1",
 				SubCategories = new List<Category> () {
@@ -53,6 +57,7 @@ namespace Integration
 				throw ex;
 			}
 
+			//assert
 			string serialized = "";
 			CollectionAssert.AreEqual (actual, new[] {c1,c2}, new CategoryComparer());
 			Assert.AreEqual (0, actual.Where (c=>c.Name.Contains ("child")).Count ());
@@ -60,6 +65,29 @@ namespace Integration
 				serialized = JsonConvert.SerializeObject (actual);
 			});
 			Assert.IsTrue (serialized.Contains ("child 1.1"), "child categories are not serialzied");
+		}
+
+		[Test]
+		[Category ("Integration")]
+		public void GetRootCategoriesWithoutWrongClass2477 ()
+		{
+			//var assembly = Assembly.GetExecutingAssembly ();
+			//var sqlStream = assembly.GetManifestResourceStream ("Integration.daidakaram.2477.sql");
+			//string sql = new StreamReader (sqlStream).ReadToEnd ();
+
+			//using (var tx = Session.BeginTransaction ()) {
+			//	Session.CreateSQLQuery (sql).ExecuteUpdate ();
+			//	tx.Commit ();
+			//}
+
+
+
+			Assert.Pass ();
+		}
+
+		protected override void TruncateDatabase ()
+		{
+			//base.TruncateDatabase ();
 		}
 
 		[Test]
@@ -93,7 +121,6 @@ namespace Integration
 				if (x.Id < y.Id) return 1;
 				if (x.Id == y.Id) return 0;
 			}
-
 
 			if (x.Name == y.Name) {
 				return 0;

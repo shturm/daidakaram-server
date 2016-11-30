@@ -30,7 +30,16 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 		}
 
 		[HttpGet]
-		[Route("api/product")]
+		[Route ("api/product")]
+		public ProductDto GetProduct(int id)
+		{
+			var p = _productService.Get (id);
+			var dto = new ProductDto (p);
+			return dto;
+		}
+
+		[HttpGet]
+		[Route("api/product/page")]
 		public IEnumerable<ProductDto> GetPage (int pageNumber)
 		{
 			var products = _productService.GetPage (pageNumber == 0 ? 0 : pageNumber-1);

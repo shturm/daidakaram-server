@@ -61,6 +61,22 @@ namespace Integration
 			Assert.AreEqual (catGroup.Parent, catType);
 		}
 
+		[Test]
+		[Category ("Integration")]
+		public void GetPage ()
+		{
+			using (var tx = Session.BeginTransaction ()) {
+				for (int i = 0; i < 25; i++) {
+					var x = new Product () { Name = string.Format ("p{0}",i) };
+					Session.Save (x);
+				}
+				tx.Commit ();
+			}
+
+			Assert.AreEqual (20, Service.GetPage (0).Count ());
+			Assert.AreEqual (5, Service.GetPage (1).Count ());
+		}
+
 	}
 }
 

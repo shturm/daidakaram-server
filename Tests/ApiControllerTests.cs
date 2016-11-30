@@ -31,13 +31,7 @@ namespace Integration
 		[SetUp]
 		public virtual void SetUp ()
 		{
-			using (var tx = Session.BeginTransaction ()) {
-				Session.CreateSQLQuery ("truncate Product").List ();
-				Session.CreateSQLQuery ("truncate Category").List ();
-				Session.CreateSQLQuery ("truncate Image").List ();
-				tx.Commit ();
-			}
-
+			TruncateDatabase ();
 			try {
 				Controller = Scope.Resolve<TController> ();
 			} catch (Exception ex) {
@@ -52,6 +46,16 @@ namespace Integration
 		public virtual void ShutDown()
 		{
 			Scope.Dispose ();
+		}
+
+		protected virtual void TruncateDatabase()
+		{
+			using (var tx = Session.BeginTransaction ()) {
+				Session.CreateSQLQuery ("truncate Product").List ();
+				Session.CreateSQLQuery ("truncate Category").List ();
+				Session.CreateSQLQuery ("truncate Image").List ();
+				tx.Commit ();
+			}
 		}
 	}
 }

@@ -16,6 +16,7 @@ using System.Linq;
 using System.Reflection;
 using NHibernate;
 using NHibernate.Linq;
+using DaiDaKaram.Infrastructure;
 
 namespace Integration
 {
@@ -166,7 +167,8 @@ namespace Integration
 			}
 
 			initialProduct.Name = "new name";
-			Controller.UpdateProduct (initialProduct);
+			var dto = new ProductDto (initialProduct);
+			Controller.UpdateProduct (dto);
 
 			var pr = Session.Query<Product> ().Where (prod=>prod.Id ==initialProduct.Id).FirstOrDefault ();
 			Assert.AreEqual ("new name", pr.Name);
@@ -195,13 +197,14 @@ namespace Integration
 
 			p.Category = new Category () { Name="assigned", Id = sc.Id} ; // dto
 
-			Controller.UpdateProduct (p);
+			var dto = new ProductDto (p);
+			Controller.UpdateProduct (dto);
 
 			Session.Refresh (p);
 			Session.Refresh (c);
 
 			Assert.AreEqual (c.SubCategories.First ().Id, p.Category.Id, "Product has category");
-			Assert.AreEqual (c.Id, p.Category.Parent.Id, "Assigned category remains child of the Parent category");
+			Assert.AreEqual (c.Id, sc.Parent.Id, "Assigned category remains child of the Parent category");
 			Assert.AreEqual (2, Session.Query<Category> ().ToList ().Count,"Category count is not changed");
 			//Assert.AreEqual (p, c.SubCategories.First ().Products.First (), "Product is added in category");
 		}

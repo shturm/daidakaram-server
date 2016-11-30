@@ -1,0 +1,1 @@
+mysqlimport --delete -u root -p daidakaram Car.csv --ignore-lines=1 --fields-terminated-by=',' --lines-terminated-by='\n' --local --columns=Id,Make,Model,Variant,Body,Type,YearFrom,YearTo,EngineCcm,EngineHp,EngineKw,EngineFuel,KType --fields-enclosed-by='"'

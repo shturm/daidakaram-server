@@ -120,8 +120,9 @@
     <Compile Include="Controllers\SecretController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\PromoteDemoteAdminUserCommand.cs" />
-    <Compile Include="Controllers\ChangeEmailCommand.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CompatibilityController.cs" />
+    <Compile Include="Commands\ChangeEmailCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />

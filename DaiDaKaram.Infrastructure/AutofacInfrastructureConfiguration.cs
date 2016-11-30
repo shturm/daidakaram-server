@@ -16,11 +16,9 @@ namespace DaiDaKaram.Infrastructure
 		public static void Configure(ContainerBuilder builder, bool webApplication = false)
 		{
 			//builder.RegisterGeneric <Repository<>>().As <IRepository<>>();
-
-
-
 			builder.RegisterGeneric (typeof(Repository<>)).As (typeof(IRepository<>));
 			builder.RegisterType<ProductRepostiroy> ().As <IProductRepository>();
+			builder.RegisterType<CarRepository> ().As <ICarRepository>();
 			builder.RegisterType<ImageManipulator> ().AsImplementedInterfaces ();
 			builder.Register<MySQLDatabase> (c => new MySQLDatabase ()).As (typeof(MySQLDatabase));
 

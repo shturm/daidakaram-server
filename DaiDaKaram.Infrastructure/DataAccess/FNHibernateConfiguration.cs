@@ -32,7 +32,7 @@ namespace DaiDaKaram.Infrastructure
 			lock (lockObject) {
 				var connectionString = ConfigurationManager.ConnectionStrings ["DefaultConnection"].ConnectionString;
 				var configuration = Fluently.Configure ()
-				                            .Database (MySQLConfiguration.Standard.ConnectionString (connectionString))
+				                            .Database (MySQLConfiguration.Standard.ConnectionString (connectionString).ShowSql ())
 					//.Mappings (x => {
 					//	x.FluentMappings.AddFromAssembly (Assembly.GetExecutingAssembly ());
 					//	//x.FluentMappings.Conventions.Add <NHM2MTableNameConvention>();
@@ -51,8 +51,15 @@ namespace DaiDaKaram.Infrastructure
 
 		public static ISession OpenSession ()
 		{
-			var factory = GetSessionFactory ();
-			var session = factory.OpenSession ();
+			ISession session;
+			ISessionFactory factory;
+			try {
+				factory = GetSessionFactory ();
+				session = factory.OpenSession ();
+			} catch (Exception ex) {
+				throw ex;
+			}
+
 
 			return session;
 		}

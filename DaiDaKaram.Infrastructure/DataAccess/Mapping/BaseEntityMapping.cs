@@ -12,8 +12,9 @@ namespace DaiDaKaram.Infrastructure.DataAccess
 			UseUnionSubclassForInheritanceMapping ();
 
 			//Id (x => x.Id).GeneratedBy.Identity (); // not working 
-			//Id (x => x.Id).GeneratedBy.Native (); // not working 
-			Id (x => x.Id).GeneratedBy.Increment();
+			//Id (x => x.Id).GeneratedBy.Native("Id"); // not working 
+			//Id (x => x.Id).GeneratedBy.Sequence ("Id"); // not working
+			Id (x => x.Id).GeneratedBy.Increment ();// works, unique incremented values across all tables
 			Map (x => x.Created).CustomType <UtcDateTimeType>();
 			Map (x => x.Updated).CustomType<UtcDateTimeType> ();
 

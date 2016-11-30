@@ -84,6 +84,7 @@
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="ProductServiceTests.cs" />
     <Compile Include="CategoryControllerTests.cs" />
+    <Compile Include="CompatibilityControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -107,6 +108,7 @@
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="daidakaram.2477.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

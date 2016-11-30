@@ -88,6 +88,8 @@
     <Compile Include="DataAccess\Mapping\CategoryMapping.cs" />
     <Compile Include="Repositories\ProductRepostiroy.cs" />
     <Compile Include="Dtos\ProductDto.cs" />
+    <Compile Include="Repositories\CarRepository.cs" />
+    <Compile Include="DataAccess\Mapping\CarMapping.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Identity\" />
