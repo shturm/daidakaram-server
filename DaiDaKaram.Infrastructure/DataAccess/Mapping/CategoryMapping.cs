@@ -12,7 +12,6 @@ namespace DaiDaKaram.Infrastructure.DataAccess
 			References (c=>c.Parent, "ParentId");
 			HasMany (c => c.SubCategories).Cascade.All ();
 			HasMany (c=>c.Products).Cascade.All ();
-
 		}
 	}
 }

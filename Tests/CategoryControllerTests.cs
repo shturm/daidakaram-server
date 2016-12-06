@@ -59,7 +59,7 @@ namespace Integration
 
 			//assert
 			string serialized = "";
-			CollectionAssert.AreEqual (actual, new[] {c1,c2}, new CategoryComparer());
+			CollectionAssert.AreEqual (new [] { c1, c2 }, actual, new CategoryComparer());
 			Assert.AreEqual (0, actual.Where (c=>c.Name.Contains ("child")).Count ());
 			Assert.DoesNotThrow (() => {
 				serialized = JsonConvert.SerializeObject (actual);
@@ -85,10 +85,6 @@ namespace Integration
 			Assert.Pass ();
 		}
 
-		protected override void TruncateDatabase ()
-		{
-			//base.TruncateDatabase ();
-		}
 
 		[Test]
 		[Category ("Integration")]

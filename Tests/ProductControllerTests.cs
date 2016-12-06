@@ -33,23 +33,40 @@ namespace Integration
 			Session = Scope.Resolve<ISession> ();
 		}
 
-		[SetUp]
-		public override void SetUp ()
+		[Test]
+		[Category ("Integration")]
+		public void GetPage ()
 		{
-			base.SetUp ();
-
+			// arrange
 			using (var tx = Session.BeginTransaction ()) {
-				Session.CreateSQLQuery ("truncate Product").List ();
-				Session.CreateSQLQuery ("truncate Image").List ();
+				for (int i = 0; i < 35; i++) {
+					var x = new Product () { };
+					if (i % 2 != 0)
+					{
+						var cs1 = new CompatibilitySetting () { Make = "BMW", Model = "3 Series", Variant = "E30", Product = x };
+						var cs2 = new CompatibilitySetting () { Make = "BMW", Model = "3 Series", Variant = "E46", Product = x };
+						x.CompatibilitySettings.Add (cs1);
+						x.CompatibilitySettings.Add (cs2);
+					}
+
+					Session.Save (x);
+				}
 				tx.Commit ();
 			}
-			//Session.Flush ();
-		}
 
-		[TearDown]
-		public void TearDown ()
-		{
-			//Session.Dispose ();
+			// act
+			var firstProducts = Controller.GetPage (1);
+			var secondProducts = Controller.GetPage (2);
+
+			// assert
+			Assert.AreEqual (20, firstProducts.Count ());
+			Assert.AreEqual (15, secondProducts.Count ());
+
+			Assert.AreEqual (2, firstProducts.ElementAt (1).CompatibilitySettings.Count ());
+			Assert.AreEqual ("SETTINGS", firstProducts.ElementAt (1).CompatibilityStatus);
+
+			Assert.AreEqual (0, firstProducts.ElementAt (2).CompatibilitySettings.Count ());
+			Assert.AreEqual ("UNKNOWN", firstProducts.ElementAt (2).CompatibilityStatus);
 		}
 
 		[Test]
@@ -90,8 +107,7 @@ namespace Integration
 			Session.Flush ();
 
 			Product queryProduct = null;
-			using(var tx = Session.BeginTransaction ())
-			{
+			using (var tx = Session.BeginTransaction ()) {
 				//queryProduct = Session.Load<Product> (1);
 				//queryProduct = Session.Get<Product> (1);
 				queryProduct = Session.Query<Product> ().FirstOrDefault ();
@@ -110,8 +126,7 @@ namespace Integration
 		{
 			var photo = new Photo ();
 			int imageId = 0;
-			using(var tx = Session.BeginTransaction ())
-			{
+			using (var tx = Session.BeginTransaction ()) {
 				Session.Save (photo);
 				tx.Commit ();
 			}
@@ -133,8 +148,7 @@ namespace Integration
 					new Photo()
 				}
 			};
-			using(var tx = Session.BeginTransaction ())
-			{
+			using (var tx = Session.BeginTransaction ()) {
 				Session.Save (initialProduct);
 				tx.Commit ();
 			}
@@ -142,13 +156,9 @@ namespace Integration
 
 			Controller.ChangeThumbnail (initialProduct.Id, 1);
 
-
-			var queriedProduct = Session.Query<Product> ().Where (prod=>prod.Id == initialProduct.Id).FirstOrDefault ();
-
+			var queriedProduct = Session.Query<Product> ().Where (prod => prod.Id == initialProduct.Id).FirstOrDefault ();
 			int totalImagesCount = Session.Query<Image> ().ToList ().Count;
 			Assert.AreEqual (3, totalImagesCount, "Total images not as much as expected");
-
-
 			Assert.IsNotNull (queriedProduct.Thumbnail, "No thumbnail set");
 		}
 
@@ -160,8 +170,7 @@ namespace Integration
 				Name = "old name",
 				Description = "desc1"
 			};
-			using(var tx = Session.BeginTransaction ())
-			{
+			using (var tx = Session.BeginTransaction ()) {
 				Session.Save (initialProduct);
 				tx.Commit ();
 			}
@@ -170,7 +179,7 @@ namespace Integration
 			var dto = new ProductDto (initialProduct);
 			Controller.UpdateProduct (dto);
 
-			var pr = Session.Query<Product> ().Where (prod=>prod.Id ==initialProduct.Id).FirstOrDefault ();
+			var pr = Session.Query<Product> ().Where (prod => prod.Id == initialProduct.Id).FirstOrDefault ();
 			Assert.AreEqual ("new name", pr.Name);
 		}
 
@@ -180,9 +189,9 @@ namespace Integration
 		{
 			var p = new Product () { Name = "update product category" };
 			var sc = new Category () { Name = "assigned category" };
-			var c = new Category () { 
+			var c = new Category () {
 				Name = "parent",
-				SubCategories = new List<Category>() {sc}
+				SubCategories = new List<Category> () { sc }
 			};
 			sc.Parent = c;
 			using (var tx = Session.BeginTransaction ()) {
@@ -195,7 +204,7 @@ namespace Integration
 			Session.Evict (p);
 			Session.Evict (c);
 
-			p.Category = new Category () { Name="assigned", Id = sc.Id} ; // dto
+			p.Category = new Category () { Name = "assigned", Id = sc.Id }; // dto
 
 			var dto = new ProductDto (p);
 			Controller.UpdateProduct (dto);
@@ -205,7 +214,7 @@ namespace Integration
 
 			Assert.AreEqual (c.SubCategories.First ().Id, p.Category.Id, "Product has category");
 			Assert.AreEqual (c.Id, sc.Parent.Id, "Assigned category remains child of the Parent category");
-			Assert.AreEqual (2, Session.Query<Category> ().ToList ().Count,"Category count is not changed");
+			Assert.AreEqual (2, Session.Query<Category> ().ToList ().Count, "Category count is not changed");
 			//Assert.AreEqual (p, c.SubCategories.First ().Products.First (), "Product is added in category");
 		}
 	}

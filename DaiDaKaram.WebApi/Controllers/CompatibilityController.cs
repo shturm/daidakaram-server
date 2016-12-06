@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using DaiDaKaram.Domain;
 
@@ -13,6 +14,12 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 		{
 			_compatibilityService = cService;
 		}
+
+		public void CreateCompatibility(CreateCompatibilityCommand cmd)
+		{
+			_compatibilityService.CreateCompatibility (cmd.ProductId, cmd.Make, cmd.Model, cmd.Variants);
+		}
+
 
 		public IEnumerable<string> GetMakes ()
 		{
@@ -81,6 +88,14 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 
 			return _compatibilityService.GetTypes (make, model);
 		}
-}
+
+		public IEnumerable<CompatibilitySettingDto> GetProductCompatibilitySettings (int productId)
+		{
+			var resultDtos = _compatibilityService.GetSettings (productId)
+			                     .Select (s => new CompatibilitySettingDto (s))
+			                     .ToList();
+			return resultDtos;
+		}
+	}
 }
 

@@ -17,7 +17,8 @@ namespace DaiDaKaram.Infrastructure
 		{
 			//builder.RegisterGeneric <Repository<>>().As <IRepository<>>();
 			builder.RegisterGeneric (typeof(Repository<>)).As (typeof(IRepository<>));
-			builder.RegisterType<ProductRepostiroy> ().As <IProductRepository>();
+			builder.RegisterType<ProductRepostiroy> ().As<IProductRepository> ();
+			builder.RegisterType<CompatibilityRepository> ().As <ICompatibilitySettingRepository>();
 			builder.RegisterType<CarRepository> ().As <ICarRepository>();
 			builder.RegisterType<ImageManipulator> ().AsImplementedInterfaces ();
 			builder.Register<MySQLDatabase> (c => new MySQLDatabase ()).As (typeof(MySQLDatabase));

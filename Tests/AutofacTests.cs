@@ -31,6 +31,7 @@ namespace Integration
 				Assert.IsInstanceOf (typeof (MySQLDatabase), scope.Resolve<MySQLDatabase> ());
 				Assert.IsInstanceOf (typeof (ISession), scope.Resolve<ISession> ());
 				Assert.IsInstanceOf (typeof (CategoryService), scope.Resolve<ICategoryService> ());
+				Assert.IsInstanceOf (typeof (CompatibilityRepository), scope.Resolve<ICompatibilitySettingRepository> ());
 			}
 		}
 

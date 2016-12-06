@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using DaiDaKaram.Domain.Entities;
+using DaiDaKaram.Infrastructure;
+using DaiDaKaram.Domain;
 
 namespace DaiDaKaram.Infrastructure
 {
@@ -15,7 +19,9 @@ namespace DaiDaKaram.Infrastructure
 		[DataMember] public decimal Price { get;  set; }
 		[DataMember] public int? CategoryId { get;  set; }
 		[DataMember] public string CategoryName { get;  set; }
-
+		[DataMember] public string CompatibilityStatus { get; set; }
+		[DataMember]
+		public IEnumerable<CompatibilitySettingDto> CompatibilitySettings { get; set; }
 
 		public ProductDto ()
 		{
@@ -32,11 +38,27 @@ namespace DaiDaKaram.Infrastructure
 			Name = p.Name;
 			SKU = p.SKU;
 			Price = p.Price;
+			CompatibilitySettings = p.CompatibilitySettings.Select (s => new CompatibilitySettingDto(s));
 			if (p.Category != null)
 			{
 				CategoryId = p.Category.Id;
 				CategoryName = p.Category.Name;
 			}
+
+			switch (p.CompatibilityStatus) {
+				case Domain.CompatibilityStatus.Unknown:
+					CompatibilityStatus = "UNKNOWN";
+					break;
+				case Domain.CompatibilityStatus.Settings:
+					CompatibilityStatus = "SETTINGS";
+					break;
+				case Domain.CompatibilityStatus.NotApplicable:
+					CompatibilityStatus = "NA";
+					break;
+			default:
+				break;
+			}
+
 
 		}
 	}

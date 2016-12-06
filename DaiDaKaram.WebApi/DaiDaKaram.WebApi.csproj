@@ -123,6 +123,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CompatibilityController.cs" />
     <Compile Include="Commands\ChangeEmailCommand.cs" />
+    <Compile Include="Commands\CreateCompatibilityCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />

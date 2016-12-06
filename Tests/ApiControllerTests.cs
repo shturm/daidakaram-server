@@ -54,6 +54,7 @@ namespace Integration
 				Session.CreateSQLQuery ("truncate Product").List ();
 				Session.CreateSQLQuery ("truncate Category").List ();
 				Session.CreateSQLQuery ("truncate Image").List ();
+				Session.CreateSQLQuery ("truncate CompatibilitySetting").List ();
 				tx.Commit ();
 			}
 		}

@@ -90,6 +90,9 @@
     <Compile Include="Dtos\ProductDto.cs" />
     <Compile Include="Repositories\CarRepository.cs" />
     <Compile Include="DataAccess\Mapping\CarMapping.cs" />
+    <Compile Include="Dtos\CompatibilitySettingDto.cs" />
+    <Compile Include="DataAccess\Mapping\CompatibilitySettingMapping.cs" />
+    <Compile Include="Repositories\CompatibilityRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Identity\" />

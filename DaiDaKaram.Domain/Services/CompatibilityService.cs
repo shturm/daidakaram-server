@@ -8,10 +8,10 @@ namespace DaiDaKaram.Domain
 {
 	public class CompatibilityService : ICompatibilityService
 	{
-		readonly IRepository<Compatibility> _compatibilityRepository;
+		readonly ICompatibilitySettingRepository _compatibilityRepository;
 		readonly ICarRepository _carRepository;
 
-		public CompatibilityService (IRepository<Compatibility> compatRepo, ICarRepository carRepository)
+		public CompatibilityService (ICompatibilitySettingRepository compatRepo, ICarRepository carRepository)
 		{
 			_compatibilityRepository = compatRepo;
 			_carRepository = carRepository;
@@ -50,6 +50,18 @@ namespace DaiDaKaram.Domain
 		public IEnumerable<string> GetTypes (string make, string model)
 		{
 			return _carRepository.GetTypes (make, model);
+		}
+
+		public IEnumerable<CompatibilitySetting> GetSettings (int productId)
+		{
+			return _compatibilityRepository
+				.AsQueryable ()
+				.Where (s => s.Product.Id == productId);
+		}
+
+		public void CreateCompatibility (int productId, string make, string model, string [] variants)
+		{
+			_compatibilityRepository.CreateCompatibility (productId, make, model, variants);
 		}
 	}
 }

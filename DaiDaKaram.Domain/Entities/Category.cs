@@ -20,6 +20,11 @@ namespace DaiDaKaram.Domain.Entities
 		[DataMember] public virtual IList<Product> Products { get; set; }
 		[DataMember] public virtual IList<Category> SubCategories { get; set; }
 
+
+		public override string ToString ()
+		{
+			return string.Format ("[Category:#{0} Name={1}]", Id, Name);
+		}
 	}
 }
 
