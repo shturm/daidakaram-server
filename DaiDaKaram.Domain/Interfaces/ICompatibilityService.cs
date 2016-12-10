@@ -15,5 +15,6 @@ namespace DaiDaKaram.Domain
 		IEnumerable<string> GetTypes (string make, string model);
 		void CreateCompatibility (int productId, string make, string model, string [] variants);
 		IEnumerable<CompatibilitySetting> GetSettings (int productId);
-}
+		void DeleteSetting (Guid id);
+	}
 }

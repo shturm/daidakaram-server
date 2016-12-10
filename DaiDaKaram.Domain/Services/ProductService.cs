@@ -17,19 +17,22 @@ namespace DaiDaKaram.Domain
 		IImageManipulator _imageManipulator;
 
 		IRepository<Category> _categoryRepository;
+		ICompatibilitySettingRepository _compatibilityRepository;
 
 
 		public ProductService (IProductRepository productRepo,
 							   IRepository<Thumbnail> thumbRepo,
 							   IRepository<Photo> photoRepo,
 							   IImageManipulator imageManipulator,
-							   IRepository<Category> categoryRepo)
+							   IRepository<Category> categoryRepo,
+		                       ICompatibilitySettingRepository compatibilityRepository)
 		{
 			_productRepository = productRepo;
 			_thumbnailRepository = thumbRepo;
 			_photoRepository = photoRepo;
 			_imageManipulator = imageManipulator;
 			_categoryRepository = categoryRepo;
+			_compatibilityRepository = compatibilityRepository;
 		}
 
 
@@ -103,6 +106,17 @@ namespace DaiDaKaram.Domain
 
 		public void Update (Product p)
 		{
+			if (p.CompatibilityStatus == CompatibilityStatus.NotApplicable)
+			{
+				if (p.CompatibilitySettings.Count () > 0)
+				{
+					foreach (var s in p.CompatibilitySettings) {
+						s.Product = null;
+						p.CompatibilitySettings.Remove (s);
+						_compatibilityRepository.Delete (s);
+					}
+				}
+			}
 			_productRepository.Update (p);
 		}
 

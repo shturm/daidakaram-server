@@ -63,5 +63,17 @@ namespace DaiDaKaram.Domain
 		{
 			_compatibilityRepository.CreateCompatibility (productId, make, model, variants);
 		}
+
+		public void DeleteSetting (Guid id)
+		{
+			var s = _compatibilityRepository.Get (setting => setting.Id == id);
+			//var s = _compatibilityRepository.AsQueryable ().Where (setting => setting.Id == id).FirstOrDefault ();
+			var p = s.Product;
+
+			p.CompatibilitySettings.Remove (s);
+			s.Product = null;
+
+			_compatibilityRepository.Delete (s);
+		}
 	}
 }

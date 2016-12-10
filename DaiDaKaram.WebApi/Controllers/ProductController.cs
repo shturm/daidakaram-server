@@ -153,6 +153,10 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 				                             .Where (cat=>cat.Id == pDto.CategoryId).First ();
 				p.Category = c;
 			}
+			if (pDto.CompatibilityStatus == "NA")
+			{
+				p.CompatibilityStatus = CompatibilityStatus.NotApplicable;
+			}
 			_productService.Update (p);
 		}
 	}

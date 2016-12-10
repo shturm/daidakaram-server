@@ -15,6 +15,8 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 			_compatibilityService = cService;
 		}
 
+		[HttpPost]
+		[Route("api/compatibility")]
 		public void CreateCompatibility(CreateCompatibilityCommand cmd)
 		{
 			_compatibilityService.CreateCompatibility (cmd.ProductId, cmd.Make, cmd.Model, cmd.Variants);
@@ -96,6 +98,13 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 			                     .ToList();
 			return resultDtos;
 		}
-	}
+
+		[HttpDelete]
+		[Route("api/compatibility")]
+		public void DeleteSetting (Guid settingId)
+		{
+			_compatibilityService.DeleteSetting (settingId);
+		}
+}
 }
 

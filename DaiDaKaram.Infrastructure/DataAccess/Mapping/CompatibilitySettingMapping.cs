@@ -12,7 +12,7 @@ namespace DaiDaKaram.Infrastructure.DataAccess
 			Map (x => x.Make);
 			Map (x => x.Model);
 			Map (x => x.Variant);
-			References<Product> (x=>x.Product, "ProductId").Cascade.SaveUpdate ();
+			References<Product> (x=>x.Product, "ProductId");
 		}
 	}
 }

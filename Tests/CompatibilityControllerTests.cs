@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using DaiDaKaram.Domain.Entities;
@@ -99,7 +100,7 @@ namespace Integration
 
 		[Test]
 		[Category ("Integration")]
-		public void CreateCompatibility_NoneVariantsSpecified_CompactlyUsesSingleRecord ()
+		public void CreateCompatibility_NoneSpecified_SavesGenericRecord ()
 		{
 			var p = new Product ();
 			using (var tx = Session.BeginTransaction ()) {
@@ -123,7 +124,7 @@ namespace Integration
 
 		[Test]
 		[Category ("Integration")]
-		public void CreateCompatibility_AllVariantsSpecified_CompactlyUsesSingleRecord ()
+		public void CreateCompatibility_AllSpecified_NoneExist_SavesGenericRecord ()
 		{
 			var p = new Product ();
 			using (var tx = Session.BeginTransaction ()) {
@@ -148,7 +149,11 @@ namespace Integration
 
 		[Test]
 		[Category ("Integration")]
-		public void CreateCompatibility_SomeVariantsSpecified_UsesIndividualRecords ()
+		[Category("Database")]
+		[Description("When creating SOME variants" +
+		             "And NONE exist" +
+		             "Individual records are saved")]
+		public void CreateCompatibility_SomeSpecified_NoneExist_SavesIndividualRecords ()
 		{
 			var p = new Product ();
 			using (var tx = Session.BeginTransaction ()) {
@@ -171,5 +176,178 @@ namespace Integration
 			}
 		}
 
+		[Test]
+		[Category ("Integration")]
+		[Category ("Database")]
+		[Description("When create some settings" +
+		             "And overlapping settings exist" +
+		             "Then only unique settings should be saved")]
+		public void CreateCompatibility_SomeSpecified_SomeExist_SavesUniqueRecords ()
+		{
+			// arrange
+			var p = new Product () {
+				CompatibilitySettings = new List<CompatibilitySetting>() {
+					new CompatibilitySetting (){Make="BMW",Model="3 Series",Variant="E21"},
+					new CompatibilitySetting (){Make="BMW",Model="3 Series",Variant="E30"},
+				}
+			};
+			using (var tx = Session.BeginTransaction ()) {
+				Session.Save (p);
+				tx.Commit ();
+			}
+
+			var cmd = new CreateCompatibilityCommand () {
+				Make = "BMW",
+				Model = "3 Series",
+				Variants = new string [] { "E21", "E30", "E36" },
+				ProductId = p.Id
+			};
+
+			// act
+			Controller.CreateCompatibility (cmd);
+
+			// assert
+			using (var tx = Session.BeginTransaction ()) {
+				var variants = Session.Query<CompatibilitySetting> ().Select(s=>s.Variant).ToList ();
+				Assert.AreEqual (3, variants.Count());
+				Assert.Contains ("E36", variants);
+			}
+		}
+
+		[Test]
+		[Category ("Integration")]
+		[Category ("Database")]
+		[Description ("When create some settings" +
+		              "And setting for all settings exist" +
+					 "Then no settings should be saved")]
+		public void CreateCompatibility_SomeSpecified_AllExist_SavesNothing ()
+		{
+			// arrange
+			var p = new Product () {
+				CompatibilitySettings = new List<CompatibilitySetting> () {
+					new CompatibilitySetting (){Make="BMW",Model="3 Series"}
+				}
+			};
+			using (var tx = Session.BeginTransaction ()) {
+				Session.Save (p);
+				tx.Commit ();
+			}
+
+			var cmd = new CreateCompatibilityCommand () {
+				Make = "BMW",
+				Model = "3 Series",
+				Variants = new string [] { "E21", "E30", "E36" },
+				ProductId = p.Id
+			};
+
+			// act
+			Controller.CreateCompatibility (cmd);
+
+			// assert
+			using (var tx = Session.BeginTransaction ()) {
+				var variants = Session.Query<CompatibilitySetting> ().Select (s => s.Variant).ToList ();
+				Assert.AreEqual (1, variants.Count ());
+				Assert.IsNullOrEmpty (variants[0]);
+			}
+		}
+
+		[Test]
+		[Category ("Integration")]
+		[Category ("Database")]
+		[Description ("When create all settings" +
+					  "And setting for all settings exist" +
+					 "Then no settings should be saved")]
+		public void CreateCompatibility_AllSpecified_AllExist_SavesNothing ()
+		{
+			// arrange
+			var p = new Product () {
+				CompatibilitySettings = new List<CompatibilitySetting> () {
+					new CompatibilitySetting (){Make="BMW",Model="3 Series"} // all exist
+				}
+			};
+			using (var tx = Session.BeginTransaction ()) {
+				Session.Save (p);
+				tx.Commit ();
+			}
+
+			var cmd = new CreateCompatibilityCommand () {
+				Make = "BMW",
+				Model = "3 Series",
+				// all specified
+				Variants = new string [] { "E21", "E30", "E36", "E91", "E90", "E46", "F30", "F30, F35, F80", "E92", "E93", "F30, F35", "F31" },
+				ProductId = p.Id
+			};
+
+			// act
+			Controller.CreateCompatibility (cmd);
+
+			// assert
+			using (var tx = Session.BeginTransaction ()) {
+				var variants = Session.Query<CompatibilitySetting> ().Select (s => s.Variant).ToList ();
+				Assert.AreEqual (1, variants.Count ());
+				Assert.IsNullOrEmpty (variants [0]);
+			}
+		}
+
+		[Test]
+		[Category ("Integration")]
+		[Category ("Database")]
+		[Description ("When create all settings" +
+					  "And some settings exist" +
+					 "Then only generic setting should be left")]
+		public void CreateCompatibility_AllSpecified_SomeExist_SavesGenericRecord ()
+		{
+			// arrange
+			var p = new Product () {};
+			var s1 = new CompatibilitySetting () { Make = "BMW", Model = "3 Series", Variant = "E21", Product=p };
+			var s2 = new CompatibilitySetting () { Make = "BMW", Model = "3 Series", Variant = "E30", Product=p };
+			p.CompatibilitySettings.Add (s1);
+			p.CompatibilitySettings.Add (s2);
+			using (var tx = Session.BeginTransaction ()) {
+				Session.Save (p);
+				tx.Commit ();
+			}
+
+			var cmd = new CreateCompatibilityCommand () {
+				Make = "BMW",
+				Model = "3 Series",
+				// all specified
+				Variants = new string [] { "E21", "E30", "E36", "E91", "E90", "E46", "F30", "F30, F35, F80", "E92", "E93", "F30, F35", "F31" },
+				ProductId = p.Id
+			};
+
+			// act
+			Controller.CreateCompatibility (cmd);
+
+			// assert
+			using (var tx = Session.BeginTransaction ()) {
+				var variants = Session.Query<CompatibilitySetting> ().Select (s => s.Variant).ToList ();
+				Assert.AreEqual (1, variants.Count ());
+				Assert.IsNullOrEmpty (variants [0]);
+			}
+		}
+
+		// test delete setting
+		[Test]
+		[Category ("Integration")]
+		public void DeleteCompatibility ()
+		{
+			Guid settingId;
+			var s = new CompatibilitySetting () { Make = "BMW", Model = "3 Series" };
+			var p = new Product () {};
+
+			s.Product = p;
+			p.CompatibilitySettings.Add (s);
+
+			using (var tx = Session.BeginTransaction ()) {
+				Session.Save (p);
+				tx.Commit ();
+			}
+			settingId = Guid.Parse (p.CompatibilitySettings.FirstOrDefault ().Id.ToString ());
+
+			Controller.DeleteSetting (settingId);
+
+			Assert.AreEqual (0, Session.Query<CompatibilitySetting> ().Count ());
+		}
 	}
 }

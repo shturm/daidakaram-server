@@ -17,33 +17,49 @@ namespace DaiDaKaram.Infrastructure
 
 		public void CreateCompatibility (int productId, string make, string model, string [] variants)
 		{
-			
+
 			using (var tx = _session.BeginTransaction ()) {
 				int countAllVariants = _session.Query<Car> ()
-				        .Where (c=>c.Make == make)
-				        .Where (c => c.Model == model)
-				        .Select (c => c.Variant)
-				        .Distinct ().ToList ()
-				        .Count();
+						.Where (c => c.Make == make)
+						.Where (c => c.Model == model)
+						.Select (c => c.Variant)
+						.Distinct ().ToList ()
+						.Count ();
 				if (countAllVariants == 0)
 					throw new Exception (string.Format ("0 variants found for {0} {1}", make, model));
 
 				var product = _session.Get<Product> (productId);
-				if (countAllVariants == variants.Length || variants.Length == 0)
+				var existingSettings = _session.Query<CompatibilitySetting> ()
+												   .Where (c => c.Make == make)
+												   .Where (c => c.Model == model)
+					                               .Where (c=> c.Product == product)
+												   .ToList ();
+				if (existingSettings.Count() == 1 && string.IsNullOrEmpty (existingSettings[0].Variant))
 				{
-					_session.Save (new CompatibilitySetting() {
-						Make=make,
-						Model=model,
-						Product=product
+					return;
+				}
+
+				if (countAllVariants == variants.Length || variants.Length == 0) {
+					foreach (var es in existingSettings) {
+						product.CompatibilitySettings.Remove (es);
+						es.Product = null;
+						_session.Delete (es);
+					}
+					_session.Save (new CompatibilitySetting () {
+						Make = make,
+						Model = model,
+						Product = product
 					});
 				} else {
+					
 					IEnumerable<CompatibilitySetting> settings =
-						variants.Select (v => new CompatibilitySetting () {
-							Make = make,
-							Model = model,
-							Variant = v,
-							Product=product
-					}).ToArray ();
+						variants.Where (v => existingSettings.Where (es => es.Variant == v).Count () == 0)
+								.Select (v => new CompatibilitySetting () {
+									Make = make,
+									Model = model,
+									Variant = v,
+									Product = product
+								}).ToArray ();
 					foreach (var s in settings) {
 						_session.Save (s);
 					}
