@@ -29,28 +29,7 @@ namespace DaiDaKaram.Infrastructure.WebApi.Controllers
 		[Route ("api/category/roots")]
 		public IEnumerable<Category> GetRootCategories ()
 		{
-			var rootCategories = _categoryService.GetRootCategories ();
-			var query = from c in rootCategories.AsQueryable ()
-						select new Category {
-							Name = c.Name,
-							SubCategories = new List<Category> (c.SubCategories)
-						};
-
-			//var result =  new [] {
-			//	new Category() {Name="Cat 1", SubCategories = new List<Category> {
-			//			new Category() {Name="Cat 1.1"},
-			//			new Category() {Name="Cat 1.2"},
-			//		}},
-			//	new Category() {Name="Cat 2", SubCategories = new List<Category> {
-			//			new Category() {Name="Cat 2.1"},
-			//			new Category() {Name="Cat 2.2"},
-			//			new Category() {Name="Cat 2.3"},
-			//		}},
-			//};
-			return rootCategories;
-			//return result;
-
-			//return query.ToList ();
+			return _categoryService.GetRootCategories ();
 		}
 
 		[HttpPut]

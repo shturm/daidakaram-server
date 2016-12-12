@@ -1,5 +1,15 @@
+
+# SQL update files
+*-alter*
+
+# MySQL Workbench model backup file
+*.bak
+
 #Autosave files
 *~
+
+# Enterprise Architect temp file
+*.ldb
 
 #build
 [Oo]bj/

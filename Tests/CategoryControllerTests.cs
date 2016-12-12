@@ -64,7 +64,7 @@ namespace Integration
 			Assert.DoesNotThrow (() => {
 				serialized = JsonConvert.SerializeObject (actual);
 			});
-			Assert.IsTrue (serialized.Contains ("child 1.1"), "child categories are not serialzied");
+			Assert.IsFalse (serialized.Contains ("child 1.1"), "roots contain too much nested levels");
 		}
 
 		[Test]

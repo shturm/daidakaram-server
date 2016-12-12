@@ -53,7 +53,7 @@
 				{
 					"name": "Register",
 					"request": {
-						"url": "localhost:8080/api/account/register",
+						"url": "localhost:8080/api/accounts/register",
 						"method": "POST",
 						"header": [
 							{
@@ -93,91 +93,97 @@
 			]
 		},
 		{
-			"name": "Create product",
-			"request": {
-				"url": "localhost:8080/api/product",
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "photos",
-							"value": "tumblr_lz0qx0bbdn1roe4b7o1_500.jpg",
-							"type": "file",
-							"enabled": true
+			"name": "Product",
+			"description": "",
+			"item": [
+				{
+					"name": "Create product",
+					"request": {
+						"url": "localhost:8080/api/product",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photos",
+									"type": "file",
+									"enabled": true,
+									"src": "tumblr_lz0qx0bbdn1roe4b7o1_500.jpg"
+								},
+								{
+									"key": "name",
+									"value": "prod 1",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "description",
+									"value": "desc 1",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"enabled": false
+								}
+							]
 						},
-						{
-							"key": "name",
-							"value": "prod 1",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "description",
-							"value": "desc 1",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "",
-							"value": "",
-							"type": "text",
-							"enabled": false
-						}
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Image",
-			"request": {
-				"url": "localhost:8080/api/product/deleteimage/42",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Add  Image to Product",
-			"request": {
-				"url": "localhost:8080/api/product/19/image",
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Update Product",
-			"request": {
-				"url": "localhost:8080/api/product/",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
 						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"id\": \"1\",\n    \"name\": \"updated name\"\n}"
+					},
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
+				{
+					"name": "Delete Image",
+					"request": {
+						"url": "localhost:8080/api/product/deleteimage/42",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add  Image to Product",
+					"request": {
+						"url": "localhost:8080/api/product/19/image",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"url": "localhost:8080/api/product/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"1\",\n    \"name\": \"updated name\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

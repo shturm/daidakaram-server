@@ -33,8 +33,32 @@ namespace DaiDaKaram.Domain
 
 		public IEnumerable<Category> GetRootCategories ()
 		{
-			var result = _categoryRepository.GetAll (c => c.Parent == null).ToList ();
+			var childless = _categoryRepository.AsQueryable ()
+											   .Where (c => c.Parent == null)
+											   .Where (c => c.SubCategories.Count () == 0)
+			                                   .Select (c => new Category(){ Id=c.Id, Name=c.Name })
+											   .ToList ();
+			var flat =  _categoryRepository.AsQueryable ()
+									  .Where (c => c.Parent == null)
+				                      .SelectMany (c => c.SubCategories, 
+				                                   (parent, child) => new {ParentId = parent.Id, ParentName = parent.Name, ChildId = child.Id, ChildName = child.Name})
+				                      .ToList ();
+			List<Category> parents = new List<Category> ();
+			foreach (var child in flat) {
+				var parent = parents.Where (c=>c.Id == child.ParentId).FirstOrDefault ();
+				if (parent == null) {
+					parent = new Category (){Id = child.ParentId, Name = child.ParentName };
+					parents.Add (parent);
+				}
+				parent.SubCategories.Add (new Category(){Id=child.ChildId, Name=child.ChildName});
+			}
+			var result = parents.Union (childless).ToList ();
 			return result;
+			//return parents.Union (childless).ToList();
+			//return parents;
+			//return new List<Category> ();
+			//var result = _categoryRepository.GetAll (c => c.Parent == null).ToList ();
+			//return result;
 		}
 
 		public void Update (Category c)
